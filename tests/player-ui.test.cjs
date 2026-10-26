@@ -17,3 +17,12 @@ test('player controls have gradual fade and reduced-motion fallback',()=>{
  assert.match(css,/\.player-area\.controls-hidden \.player-overlay\{transition:opacity \.62s /);
  assert.match(css,/prefers-reduced-motion:reduce\)\{\.player-area\.controls-hidden \.player-overlay,\.player-overlay\{transition:none!important\}/);
 });
+
+test('episode navigation shares the player frame width and centers the info between edge buttons',()=>{
+ assert.match(renderer,/<div class="player-episode-nav"><button class="btn small player-episode-previous"/);
+ assert.match(renderer,/<div class="player-episode-label">/);
+ assert.match(renderer,/<button class="btn small player-episode-next"/);
+ assert.match(css,/body\.player-view \.player-area,body\.player-view \.player-episode-nav\{width:var\(--player-frame-width\)\}/);
+ assert.match(css,/grid-template-columns:minmax\(0,1fr\) minmax\(0,2fr\) minmax\(0,1fr\)/);
+ assert.match(css,/\.player-episode-label\{min-width:0;text-align:center\}/);
+});

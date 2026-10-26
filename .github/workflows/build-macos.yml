@@ -11,7 +11,7 @@ permissions:
 
 jobs:
   gallery-arm64:
-    name: Package Gallery v0.2.3 (ARM64, ad-hoc signed DMG)
+    name: Package Gallery v0.2.4 (ARM64, ad-hoc signed DMG)
     runs-on: macos-15
     timeout-minutes: 45
     env:
@@ -53,7 +53,7 @@ jobs:
           BUNDLE_ID=$(/usr/libexec/PlistBuddy -c 'Print CFBundleIdentifier' "$PLIST")
           test "$BUNDLE_ID" = 'dev.gallery.anime'
           VERSION=$(/usr/libexec/PlistBuddy -c 'Print CFBundleShortVersionString' "$PLIST")
-          test "$VERSION" = '0.2.3'
+          test "$VERSION" = '0.2.4'
           EXE=$(/usr/libexec/PlistBuddy -c 'Print CFBundleExecutable' "$PLIST")
           BIN="$APP_PATH/Contents/MacOS/$EXE"
           test -x "$BIN"
@@ -71,7 +71,7 @@ jobs:
             | grep -F 'com.apple.security.cs.allow-jit'
           codesign -d --entitlements - "$APP_PATH" 2>&1 \
             | grep -F 'com.apple.security.cs.disable-library-validation'
-          DMG=dist/Gallery-0.2.3-arm64.dmg
+          DMG=dist/Gallery-0.2.4-arm64.dmg
           test -s "$DMG"
           hdiutil verify "$DMG"
           echo 'Verify the signed app inside the mounted DMG'
@@ -79,13 +79,13 @@ jobs:
           hdiutil attach -readonly -nobrowse -mountpoint "$RUNNER_TEMP/gallery-mount" "$DMG"
           codesign --verify --deep --strict --verbose=2 "$RUNNER_TEMP/gallery-mount/Gallery.app"
           hdiutil detach "$RUNNER_TEMP/gallery-mount"
-          echo '### Gallery v0.2.3 — Apple Silicon' >> "$GITHUB_STEP_SUMMARY"
+          echo '### Gallery v0.2.4 — Apple Silicon' >> "$GITHUB_STEP_SUMMARY"
           echo 'Ad-hoc signed Gallery.app and verified DMG, following the working StrawVerse packaging approach. Not Apple notarized.' >> "$GITHUB_STEP_SUMMARY"
 
       - name: Upload tested DMG installer
         uses: actions/upload-artifact@v4
         with:
-          name: Gallery-v0.2.3-Apple-Silicon-DMG
-          path: dist/Gallery-0.2.3-arm64.dmg
+          name: Gallery-v0.2.4-Apple-Silicon-DMG
+          path: dist/Gallery-0.2.4-arm64.dmg
           if-no-files-found: error
           retention-days: 30
