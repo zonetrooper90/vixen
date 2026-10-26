@@ -304,7 +304,7 @@ body.desktop-build input,body.desktop-build textarea{-webkit-user-select:text;us
 .player-area video{width:100%;height:100%;display:block;object-fit:contain;background:#050508}
 .player-area:fullscreen{border:0;border-radius:0;display:flex;align-items:center;justify-content:center;background:#050508}
 .player-area:fullscreen video{max-height:100%}
-.player-overlay{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:space-between;pointer-events:none;z-index:2;transition:opacity .23s ease}
+.player-overlay{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:space-between;pointer-events:none;z-index:2;transition:opacity .30s ease-out}
 .player-overlay>*{pointer-events:auto}
 .player-top{padding:18px 20px 45px;background:linear-gradient(rgba(2,2,5,.85),transparent);display:flex;gap:16px;justify-content:space-between;align-items:start;color:#f4f1f7}
 .player-top strong{font-size:14px}.player-top small{display:block;color:#d4cbdc;margin-top:5px;font-size:11px}
@@ -386,3 +386,7 @@ body.player-view .player-dev-tools{margin:8px auto 0;max-width:1120px;border:1px
 .player-area:fullscreen video{width:100%;height:100%;object-fit:contain}
 @media(max-width:740px){.playback-compactbar{gap:6px;min-height:40px}.playback-title-inline{justify-content:flex-start;flex-direction:column;align-items:flex-start;gap:0}.playback-title-inline strong{font-size:13px}.playback-title-inline span{font-size:10px}.playback-compactbar .playback-audio{font-size:10px}.playback-compactbar .detail-back{font-size:11px}.playback-compactbar .detail-back .icon{width:15px;height:15px}body.player-view .workspace{padding:5px 8px 14px}body.player-view .player-area{width:min(100%,calc((100dvh - 169px) * 16 / 9));max-height:calc(100dvh - 169px)}}
 @media(prefers-reduced-motion:reduce){.player-overlay{transition:none}}
+
+/* v0.2.3 — softer cinematic fade-out, but quick response when controls return. */
+.player-area.controls-hidden .player-overlay{transition:opacity .62s cubic-bezier(.4,0,.2,1)}
+@media(prefers-reduced-motion:reduce){.player-area.controls-hidden .player-overlay,.player-overlay{transition:none!important}}

@@ -1,0 +1,19 @@
+'use strict';
+const test=require('node:test');
+const assert=require('node:assert/strict');
+const fs=require('node:fs');
+const path=require('node:path');
+const app=path.join(__dirname,'..','app');
+const renderer=fs.readFileSync(path.join(app,'renderer.js'),'utf8');
+const css=fs.readFileSync(path.join(app,'style.css'),'utf8');
+
+test('player has exactly one fullscreen button and handler',()=>{
+ assert.equal((renderer.match(/id="fullscreen"/g)||[]).length,1);
+ assert.equal((renderer.match(/getElementById\('fullscreen'\)\.onclick=fullscreen/g)||[]).length,1);
+ assert.doesNotMatch(renderer,/top-fullscreen/);
+});
+test('player controls have gradual fade and reduced-motion fallback',()=>{
+ assert.match(css,/transition:opacity \.30s ease-out/);
+ assert.match(css,/\.player-area\.controls-hidden \.player-overlay\{transition:opacity \.62s /);
+ assert.match(css,/prefers-reduced-motion:reduce\)\{\.player-area\.controls-hidden \.player-overlay,\.player-overlay\{transition:none!important\}/);
+});
