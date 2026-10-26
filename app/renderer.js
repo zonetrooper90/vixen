@@ -181,9 +181,12 @@ function playbackPage(){
  const label=s.kind==='Movie'?'Movie':`Episode ${p.episode}`;
  const prev=p.episode>1, next=p.episode<s.total;
  return `<section class="playback-page" aria-label="Gallery video player">
-  <button type="button" class="detail-back" id="back-from-playback">${icon('back',18)} Back to episodes</button>
-  <div class="playback-heading"><div><div class="detail-kicker">Gallery player · v0.2.0 preview</div><h1>${escapeHTML(x.name)}</h1><p class="playback-meta">${escapeHTML(installmentDisplayName(x,s))} · ${escapeHTML(installmentSubLabel(s))} · ${escapeHTML(label)}</p></div><span class="playback-audio">${escapeHTML(audioName(p.audio))} · selected</span></div>
-  <div class="player-area" id="player-area" aria-label="Video and controls">
+  <div class="playback-compactbar">
+   <button type="button" class="detail-back" id="back-from-playback">${icon('back',18)} Back to episodes</button>
+   <div class="playback-title-inline"><strong>${escapeHTML(x.name)}</strong><span>${escapeHTML(installmentDisplayName(x,s))} · ${escapeHTML(installmentSubLabel(s))} · ${escapeHTML(label)}</span></div>
+   <span class="playback-audio">${escapeHTML(audioName(p.audio))}</span>
+  </div>
+  <div class="player-area" id="player-area" tabindex="0" aria-label="Video and controls">
    <video id="local-video" playsinline preload="metadata" aria-label="Local video playback"></video>
    <div class="player-no-media" id="player-empty"><div class="player-empty-inner">${icon('film',35)}<strong>No streaming source connected yet</strong><p>The anime entries in this development build are examples. Open a local video file to test our actual player controls.</p><button type="button" class="btn primary" id="open-local-video">${icon('folder',16)} Open local video…</button></div></div>
    <div class="player-overlay" id="player-overlay">
@@ -192,12 +195,15 @@ function playbackPage(){
     <div class="player-controls"><div class="controls-left"><button type="button" class="player-icon" id="mute" aria-label="Mute or unmute">${icon('volume',21)}</button><input type="range" class="player-volume" id="volume" min="0" max="100" value="100" aria-label="Volume"></div><div class="controls-middle"><button type="button" class="player-icon" id="rewind10" aria-label="Rewind 10 seconds">${icon('rewind10',29)}</button><button type="button" class="player-main-action" id="pause-play" aria-label="Play" disabled>${icon('play',25)}</button><button type="button" class="player-icon" id="forward10" aria-label="Forward 10 seconds">${icon('forward10',29)}</button></div><div class="controls-right"><button type="button" class="player-icon" id="toggle-subs" aria-label="Show or hide subtitles" aria-pressed="${p.subtitles}">${icon('captions',22)}</button><button type="button" class="player-icon" id="player-settings" aria-label="Playback speed">${icon('settings',21)}</button><button type="button" class="player-icon" id="fullscreen" aria-label="Toggle fullscreen">${icon('maximize',21)}</button></div></div></div>
    </div>
   </div>
-  <div class="player-file-actions"><button class="btn small" id="change-local-video">${icon('folder',15)} Open local video…</button><button class="btn small" id="open-external-vlc" disabled>Open in VLC</button><span class="muted" id="local-file-label" style="align-self:center;font-size:12px">No local file selected</span></div>
   <div class="player-episode-nav"><div class="player-episode-label"><strong>${escapeHTML(installmentDisplayName(x,s))}</strong><small>${escapeHTML(installmentSubLabel(s))} · ${escapeHTML(label)} · ${escapeHTML(audioName(p.audio))}</small></div><div class="player-episode-actions"><button class="btn small" id="previous-episode" ${!prev?'disabled':''}>${icon('back',15)} Previous episode</button><button class="btn small" id="next-episode" ${!next?'disabled':''}>Next episode ${icon('chevron',15)}</button></div></div>
-  <div class="player-notice" id="player-notice">Local-file playback is functional where Electron supports the file's codec. Actual provider streams, bundled MPV rendering, and subtitle imports are not connected yet. Gallery does not autoplay the next episode.</div>
+  <details class="player-dev-tools" data-development-only="true"><summary>Development tools · Local playback / VLC</summary>
+   <div class="player-file-actions"><button class="btn small" id="change-local-video">${icon('folder',15)} Open local video…</button><button class="btn small" id="open-external-vlc" disabled>Open in VLC</button><span class="muted" id="local-file-label" style="align-self:center;font-size:12px">No local file selected</span></div>
+   <div class="player-notice" id="player-notice">Local-file playback is functional where Electron supports the file's codec. Actual provider streams, bundled MPV rendering, and subtitle imports are not connected yet. Gallery does not autoplay the next episode.</div>
+  </details>
  </section>`;
 }
 function backFromPlayback(){
+ clearTimeout(playerControlsTimer);playerControlsTimer=null;
  document.getElementById("local-video")?.pause();isLocalVideoReady=false;
  state.playback=null;render();workspace.scrollTop=state.playbackReturnScroll;
 }
@@ -293,19 +299,59 @@ async function openLocalForPlayer(){
  // User action picked a file; no automatic next-episode transition.
 }
 function advanceEpisode(step){
+ clearTimeout(playerControlsTimer);playerControlsTimer=null;
  const p=state.playback,x=demo.find(d=>d.id===state.detailId),s=x&&activeInstallment(x);
  if(!p||!s)return;const newEp=p.episode+step;
  if(newEp<1||newEp>s.total)return;
  state.detailEpisode=newEp;state.playback={...p,episode:newEp};
  isLocalVideoReady=false;localVideoName='';render();workspace.scrollTop=0;
 }
+// The controls fade out during playback and stay visible for keyboard users.
+let playerControlsTimer=null;
+let playerEventController=null;
+let playerKeyboardFocus=false;
+const PLAYER_CONTROLS_IDLE_MS=2600;
+function playerControlsWake(){
+ const area=document.getElementById('player-area');if(!area)return;
+ area.classList.remove('controls-hidden');
+ playerControlsScheduleHide();
+}
+function playerControlsScheduleHide(){
+ clearTimeout(playerControlsTimer);playerControlsTimer=null;
+ const area=document.getElementById('player-area'),video=document.getElementById('local-video');
+ if(!area||!video)return;
+ if(!isLocalVideoReady||video.paused||video.ended){area.classList.remove('controls-hidden');return;}
+ const focused=document.activeElement;
+ if(playerKeyboardFocus&&focused&&area.contains(focused)&&focused!==area)return;
+ if(document.getElementById('modal-host')?.firstElementChild)return;
+ playerControlsTimer=setTimeout(()=>{
+  const currentVideo=document.getElementById('local-video'),currentArea=document.getElementById('player-area');
+  if(!currentArea||!currentVideo||currentVideo!==video||currentVideo.paused||currentVideo.ended)return;
+  const active=document.activeElement;
+  if(playerKeyboardFocus&&active&&currentArea.contains(active)&&active!==currentArea)return;
+  if(document.getElementById('modal-host')?.firstElementChild)return;
+  currentArea.classList.add('controls-hidden');
+ },PLAYER_CONTROLS_IDLE_MS);
+}
 function initializePlayer(){
  const v=document.getElementById('local-video');if(!v)return;
+ clearTimeout(playerControlsTimer);playerControlsTimer=null;
+ playerEventController?.abort();playerEventController=new AbortController();
  isLocalVideoReady=false;localVideoName='';
  v.volume=1;v.autoplay=false;v.loop=false;
  v.addEventListener('loadedmetadata',()=>{isLocalVideoReady=true;document.getElementById('player-empty').hidden=true;updatePlaybackUI();});
  v.addEventListener('error',()=>{isLocalVideoReady=false;document.getElementById('player-empty').hidden=false;showPlayerNotice('The selected file cannot be decoded in the integrated Chromium player. You may try VLC, if installed, or another compatible file.');updatePlaybackUI();});
  for(const name of ['timeupdate','durationchange','play','pause','ended','volumechange'])v.addEventListener(name,updatePlaybackUI);
+ v.addEventListener('play',playerControlsWake);
+ for(const name of ['pause','ended','emptied'])v.addEventListener(name,()=>{clearTimeout(playerControlsTimer);document.getElementById('player-area')?.classList.remove('controls-hidden');});
+ const playerArea=document.getElementById('player-area');
+ playerArea.addEventListener('pointermove',()=>{playerKeyboardFocus=false;playerControlsWake();});
+ playerArea.addEventListener('pointerdown',()=>{playerKeyboardFocus=false;playerControlsWake();});
+ playerArea.addEventListener('keydown',()=>{playerKeyboardFocus=true;playerControlsWake();});
+ document.addEventListener('keydown',e=>{if(e.key==='Tab')playerKeyboardFocus=true;},{signal:playerEventController.signal});
+ playerArea.addEventListener('focusin',playerControlsWake);
+ playerArea.addEventListener('focusout',()=>setTimeout(playerControlsScheduleHide,0));
+ document.addEventListener('fullscreenchange',playerControlsWake,{signal:playerEventController.signal});
  document.getElementById('open-local-video').onclick=openLocalForPlayer;
  document.getElementById('change-local-video').onclick=openLocalForPlayer;
  document.getElementById('pause-play').onclick=()=>{if(!isLocalVideoReady)return;if(v.paused)v.play().catch(e=>showPlayerNotice('Unable to play file: '+e.message));else v.pause();};
@@ -333,6 +379,8 @@ function initializePlayer(){
 }
 
 function render(){
+ if(!state.playback){clearTimeout(playerControlsTimer);playerControlsTimer=null;playerEventController?.abort();playerEventController=null;}
+ document.body.classList.toggle('player-view',Boolean(state.playback));
  const oldTagScroll=screen.querySelector('.tagbar')?.scrollLeft||0;
  const priorRailScroll=screen.querySelector('#inline-installment-rail')?.scrollLeft||0;
  workspace.classList.toggle('library-view',state.view==='library'&&!state.detailId);
@@ -390,7 +438,7 @@ function showSettings(){
  <div class="field"><label for="pref-playback">Default playback audio</label>${selectAudio('pref-playback',state.defaultPlayback)}</div>
  <div class="field"><label for="pref-download">Default download language</label>${selectAudio('pref-download',state.defaultDownload)}</div>
  <div class="field"><label for="pref-subs">Subtitles enabled when playback starts</label><select id="pref-subs"><option value="on" ${state.defaultSubtitles?'selected':''}>On</option><option value="off" ${!state.defaultSubtitles?'selected':''}>Off</option></select></div>
- </div><div class="dialog-sample"><span class="label">Player integration · v0.2.0</span><div class="field"><label for="player-pref">Preferred player for local files</label><select id="player-pref"><option value="built-in" ${(state.playerPreference||'built-in')==='built-in'?'selected':''}>Built-in (default)</option><option value="vlc" ${state.playerPreference==='vlc'?'selected':''}>VLC (external · optional)</option></select></div><p class="tip">External player compatibility, subtitles, and watch progress are not guaranteed. Gallery recommends the built-in player. VLC detection uses macOS Spotlight metadata and standard application locations — no full disk scan.</p><button class="btn small" id="locate-vlc">Locate VLC manually…</button><div class="tip" id="vlc-detection">Optional: select a custom VLC installation path.</div></div><p class="tip">This is a development build. The app saves appearance and playback preferences locally. Provider streaming and real downloads are not implemented yet.</p>`,
+ </div><div class="dialog-sample"><span class="label">Player integration · v0.2.2</span><div class="field"><label for="player-pref">Preferred player for local files</label><select id="player-pref"><option value="built-in" ${(state.playerPreference||'built-in')==='built-in'?'selected':''}>Built-in (default)</option><option value="vlc" ${state.playerPreference==='vlc'?'selected':''}>VLC (external · optional)</option></select></div><p class="tip">External player compatibility, subtitles, and watch progress are not guaranteed. Gallery recommends the built-in player. VLC detection uses macOS Spotlight metadata and standard application locations — no full disk scan.</p><button class="btn small" id="locate-vlc">Locate VLC manually…</button><div class="tip" id="vlc-detection">Optional: select a custom VLC installation path.</div></div><p class="tip">This is a development build. The app saves appearance and playback preferences locally. Provider streaming and real downloads are not implemented yet.</p>`,
  `<button class="btn primary" id="apply-preferences">Apply preferences</button>`);
  for(const el of modalHost.querySelectorAll('[data-theme-button]'))el.onclick=()=>{const playback=document.getElementById('pref-playback').value;const download=document.getElementById('pref-download').value;const subs=document.getElementById('pref-subs').value;state.theme=el.dataset.themeButton;state.defaultPlayback=playback;state.defaultDownload=download;state.defaultSubtitles=subs==='on';document.body.dataset.theme=state.theme;saveDesktopPreferences();showSettings();};
  document.getElementById('locate-vlc')?.addEventListener('click',async()=>{if(!window.galleryDesktop){document.getElementById('vlc-detection').textContent='Available in the macOS app only.';return;}const found=await window.galleryDesktop.locateVLC();document.getElementById('vlc-detection').textContent=found.ok?'Selected: '+found.path:found.message;});
