@@ -2,7 +2,7 @@
 
 **Repository:** `zonetrooper90/vixen` (temporary repository name). **Gallery** is the application's current working title; neither name has been confirmed as the final brand.
 
-## v0.2.0 — Apple Silicon preview
+## v0.2.1 — Apple Silicon preview
 
 The first available build is a **development prototype for local video playback**. It is not yet a live anime streaming/download application. It includes our custom player UI, theme-aware split progress timeline, 10-second seek controls, local video selection, three themes, and experimental VLC support for local files. Streaming providers, downloading, and embedded MPV remain future development tasks.
 
@@ -10,18 +10,18 @@ The first available build is a **development prototype for local video playback*
 
 1. Open **Actions → Build Gallery for Apple Silicon**.
 2. Choose a successful run for `main` (or select **Run workflow**).
-3. Download the `Gallery-v0.2.0-Apple-Silicon` artifact.
-4. Extract the artifact ZIP, then extract `Gallery-v0.2.0-Apple-Silicon.zip` inside it to obtain `Gallery.app`.
-5. Open Gallery on an Apple Silicon Mac using Finder. No local npm installation is required.
+3. Download the `Gallery-v0.2.1-Apple-Silicon-DMG` artifact.
+4. Extract the downloaded artifact ZIP, then double-click the **Gallery-v0.2.1-arm64.dmg** inside it.
+5. Drag **Gallery.app** from the mounted DMG into Applications and open it. No local npm installation is required.
 
-The development preview is **unsigned and unnotarized**, so macOS may ask you to approve opening it via **System Settings → Privacy & Security → Open Anyway**. Do not disable Gatekeeper globally.
+The development preview uses **ad-hoc code signing** (matching the StrawVerse development build) and is **not Apple Developer ID signed or notarized**. The DMG and `.app` have been verified in GitHub's macOS build workflow. Gatekeeper may still require approval on another Mac; do not disable Gatekeeper globally. This is not a public distribution-ready signature.
 
 ### Scope
 
 - **macOS Apple Silicon (ARM64) only** for active development.
 - App identifier: `dev.gallery.anime` (development identifier). Local settings: `~/Library/Application Support/GalleryAnime`.
 - StrawVerse-mac source, caches, and settings remain independent and untouched.
-- The temporary `gallery/v0.2.0-preview` branch in StrawVerse-mac was a staging area, not the source of truth. New work belongs here.
+- The temporary `gallery/v0.2.1-preview` branch in StrawVerse-mac was a staging area, not the source of truth. New work belongs here.
 - Season navigation remains provisional; autoplay and queues are omitted by design.
 - v0.x.x development versions; v1.0.0 reserved for a future stable release.
 

@@ -11,7 +11,7 @@ permissions:
 
 jobs:
   gallery-arm64:
-    name: Package Gallery v0.2.0 (ARM64)
+    name: Package Gallery v0.2.1 (ARM64, ad-hoc signed DMG)
     runs-on: macos-15
     timeout-minutes: 45
     env:
@@ -40,10 +40,10 @@ jobs:
       - name: Validate sources and unit tests
         run: npm run check
 
-      - name: Package Gallery.app
+      - name: Build ad-hoc signed Gallery.app and DMG
         run: npm run pack:mac
 
-      - name: Verify ARM64 application and create Finder-ready ZIP
+      - name: Verify signature, architecture and installer
         run: |
           set -euo pipefail
           APP_PATH=$(find dist -maxdepth 3 -type d -name Gallery.app -print -quit)
@@ -52,6 +52,8 @@ jobs:
           test -f "$PLIST"
           BUNDLE_ID=$(/usr/libexec/PlistBuddy -c 'Print CFBundleIdentifier' "$PLIST")
           test "$BUNDLE_ID" = 'dev.gallery.anime'
+          VERSION=$(/usr/libexec/PlistBuddy -c 'Print CFBundleShortVersionString' "$PLIST")
+          test "$VERSION" = '0.2.1'
           EXE=$(/usr/libexec/PlistBuddy -c 'Print CFBundleExecutable' "$PLIST")
           BIN="$APP_PATH/Contents/MacOS/$EXE"
           test -x "$BIN"
@@ -61,16 +63,29 @@ jobs:
             echo 'Unexpected Intel architecture included' >&2
             exit 1
           fi
-          mkdir -p release
-          ditto -c -k --sequesterRsrc --keepParent "$APP_PATH" release/Gallery-v0.2.0-Apple-Silicon.zip
-          unzip -t release/Gallery-v0.2.0-Apple-Silicon.zip >/dev/null
-          echo '### Gallery v0.2.0 — Apple Silicon' >> "$GITHUB_STEP_SUMMARY"
-          echo 'Independent Apple Silicon app built in Vixen. Unsigned and not notarized.' >> "$GITHUB_STEP_SUMMARY"
+          echo 'Verifying recursively signed app'
+          codesign --verify --deep --strict --verbose=2 "$APP_PATH"
+          codesign -dv --verbose=4 "$APP_PATH" 2>&1 | tee "$RUNNER_TEMP/gallery-signature.txt"
+          grep -Fq 'Signature=adhoc' "$RUNNER_TEMP/gallery-signature.txt"
+          codesign -d --entitlements - "$APP_PATH" 2>&1 \
+            | grep -F 'com.apple.security.cs.allow-jit'
+          codesign -d --entitlements - "$APP_PATH" 2>&1 \
+            | grep -F 'com.apple.security.cs.disable-library-validation'
+          DMG=dist/Gallery-0.2.1-arm64.dmg
+          test -s "$DMG"
+          hdiutil verify "$DMG"
+          echo 'Verify the signed app inside the mounted DMG'
+          mkdir -p "$RUNNER_TEMP/gallery-mount"
+          hdiutil attach -readonly -nobrowse -mountpoint "$RUNNER_TEMP/gallery-mount" "$DMG"
+          codesign --verify --deep --strict --verbose=2 "$RUNNER_TEMP/gallery-mount/Gallery.app"
+          hdiutil detach "$RUNNER_TEMP/gallery-mount"
+          echo '### Gallery v0.2.1 — Apple Silicon' >> "$GITHUB_STEP_SUMMARY"
+          echo 'Ad-hoc signed Gallery.app and verified DMG, following the working StrawVerse packaging approach. Not Apple notarized.' >> "$GITHUB_STEP_SUMMARY"
 
-      - name: Upload the app archive
+      - name: Upload tested DMG installer
         uses: actions/upload-artifact@v4
         with:
-          name: Gallery-v0.2.0-Apple-Silicon
-          path: release/Gallery-v0.2.0-Apple-Silicon.zip
+          name: Gallery-v0.2.1-Apple-Silicon-DMG
+          path: dist/Gallery-0.2.1-arm64.dmg
           if-no-files-found: error
           retention-days: 30
