@@ -1,0 +1,76 @@
+name: Build Gallery for Apple Silicon
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  gallery-arm64:
+    name: Package Gallery v0.2.0 (ARM64)
+    runs-on: macos-15
+    timeout-minutes: 45
+    env:
+      CSC_IDENTITY_AUTO_DISCOVERY: 'false'
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - name: Check out Vixen
+        uses: actions/checkout@v4
+
+      - name: Confirm Apple Silicon runner
+        run: |
+          set -euo pipefail
+          test "$(uname -m)" = 'arm64'
+          sw_vers
+
+      - name: Install Node.js on the CI runner
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Install project dependencies (on GitHub only)
+        run: npm install --no-audit --no-fund
+
+      - name: Validate sources and unit tests
+        run: npm run check
+
+      - name: Package Gallery.app
+        run: npm run pack:mac
+
+      - name: Verify ARM64 application and create Finder-ready ZIP
+        run: |
+          set -euo pipefail
+          APP_PATH=$(find dist -maxdepth 3 -type d -name Gallery.app -print -quit)
+          test -n "$APP_PATH"
+          PLIST="$APP_PATH/Contents/Info.plist"
+          test -f "$PLIST"
+          BUNDLE_ID=$(/usr/libexec/PlistBuddy -c 'Print CFBundleIdentifier' "$PLIST")
+          test "$BUNDLE_ID" = 'dev.gallery.anime'
+          EXE=$(/usr/libexec/PlistBuddy -c 'Print CFBundleExecutable' "$PLIST")
+          BIN="$APP_PATH/Contents/MacOS/$EXE"
+          test -x "$BIN"
+          file "$BIN"
+          lipo -archs "$BIN" | grep -Eq '(^|[[:space:]])arm64($|[[:space:]])'
+          if lipo -archs "$BIN" | grep -q x86_64; then
+            echo 'Unexpected Intel architecture included' >&2
+            exit 1
+          fi
+          mkdir -p release
+          ditto -c -k --sequesterRsrc --keepParent "$APP_PATH" release/Gallery-v0.2.0-Apple-Silicon.zip
+          unzip -t release/Gallery-v0.2.0-Apple-Silicon.zip >/dev/null
+          echo '### Gallery v0.2.0 — Apple Silicon' >> "$GITHUB_STEP_SUMMARY"
+          echo 'Independent Apple Silicon app built in Vixen. Unsigned and not notarized.' >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Upload the app archive
+        uses: actions/upload-artifact@v4
+        with:
+          name: Gallery-v0.2.0-Apple-Silicon
+          path: release/Gallery-v0.2.0-Apple-Silicon.zip
+          if-no-files-found: error
+          retention-days: 30
