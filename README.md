@@ -1,0 +1,35 @@
+# Gallery — macOS anime application (development)
+
+**Repository:** `zonetrooper90/vixen` (temporary repository name). **Gallery** is the application's current working title; neither name has been confirmed as the final brand.
+
+## v0.2.0 — Apple Silicon preview
+
+The first available build is a **development prototype for local video playback**. It is not yet a live anime streaming/download application. It includes our custom player UI, theme-aware split progress timeline, 10-second seek controls, local video selection, three themes, and experimental VLC support for local files. Streaming providers, downloading, and embedded MPV remain future development tasks.
+
+### Test on macOS without Node.js or npm
+
+1. Open **Actions → Build Gallery for Apple Silicon**.
+2. Choose a successful run for `main` (or select **Run workflow**).
+3. Download the `Gallery-v0.2.0-Apple-Silicon` artifact.
+4. Extract the artifact ZIP, then extract `Gallery-v0.2.0-Apple-Silicon.zip` inside it to obtain `Gallery.app`.
+5. Open Gallery on an Apple Silicon Mac using Finder. No local npm installation is required.
+
+The development preview is **unsigned and unnotarized**, so macOS may ask you to approve opening it via **System Settings → Privacy & Security → Open Anyway**. Do not disable Gatekeeper globally.
+
+### Scope
+
+- **macOS Apple Silicon (ARM64) only** for active development.
+- App identifier: `dev.gallery.anime` (development identifier). Local settings: `~/Library/Application Support/GalleryAnime`.
+- StrawVerse-mac source, caches, and settings remain independent and untouched.
+- The temporary `gallery/v0.2.0-preview` branch in StrawVerse-mac was a staging area, not the source of truth. New work belongs here.
+- Season navigation remains provisional; autoplay and queues are omitted by design.
+- v0.x.x development versions; v1.0.0 reserved for a future stable release.
+
+### Project structure
+
+- `app/` — interface and player
+- `electron/` — native desktop shell and settings
+- `tests/` — unit tests
+- `.github/workflows/build-macos.yml` — Apple Silicon GitHub Actions build
+
+The built-in player in this early milestone uses browser video playback for **local media testing**, not yet MPV-backed streaming.
