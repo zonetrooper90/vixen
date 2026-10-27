@@ -1,0 +1,56 @@
+name: Audit Gallery dependencies and capture lockfile
+on:
+  push:
+    paths:
+      - .github/workflows/dependency-audit.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  dependency-audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Resolve exact npm versions without running package scripts
+        run: npm install --package-lock-only --ignore-scripts --no-audit --no-fund
+      - name: Audit resolved dependency tree against npm advisories
+        run: |
+          set +e
+          npm audit --json > npm-audit.json
+          STATUS=$?
+          set -e
+          echo "npm audit exit: $STATUS"
+          node - <<'NODE'
+          const fs=require('node:fs');
+          const audit=JSON.parse(fs.readFileSync('npm-audit.json','utf8'));
+          const obj={
+            advisoryMetadata:audit.metadata?.vulnerabilities??{},
+            vulnerabilities:Object.entries(audit.vulnerabilities??{}).map(([packageName,data])=>({
+              package:packageName,
+              severity:data.severity,
+              isDirect:data.isDirect,
+              range:data.range,
+              fixAvailable:data.fixAvailable,
+              via:data.via?.map(v=>typeof v==='string'?v:{title:v.title,url:v.url})
+            }))
+          };
+          fs.writeFileSync('dependency-audit-report.json',JSON.stringify(obj,null,2)+'\n');
+          console.log(JSON.stringify(obj.advisoryMetadata));
+          const n=obj.advisoryMetadata;
+          if((n.high||0)+(n.critical||0)>0) console.log('WARNING: high/critical dependency advisories need review.');
+          NODE
+      - name: Upload lockfile and audit report (no binaries)
+        uses: actions/upload-artifact@v4
+        with:
+          name: gallery-resolved-dependencies-and-audit
+          path: |
+            package-lock.json
+            dependency-audit-report.json
+          if-no-files-found: error
+          retention-days: 30
