@@ -34,8 +34,8 @@ jobs:
         with:
           node-version: '22'
 
-      - name: Install project dependencies (on GitHub only)
-        run: npm install --no-audit --no-fund
+      - name: Install pinned dependencies from committed package-lock.json
+        run: npm ci --no-audit --no-fund
 
       - name: Fail build on known high-severity dependency vulnerabilities
         run: npm audit --audit-level=high
