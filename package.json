@@ -1,7 +1,7 @@
 {
   "name": "gallery-anime-macos-dev",
   "private": true,
-  "version": "0.2.4",
+  "version": "0.2.5",
   "description": "Gallery anime preview for Apple Silicon macOS (local playback foundation)",
   "main": "electron/main.cjs",
   "author": "Gallery development project",
@@ -12,7 +12,7 @@
     "pack:mac": "electron-builder --mac dmg --arm64 --publish never"
   },
   "devDependencies": {
-    "electron": "^37.0.0",
+    "electron": "^45.0.0",
     "electron-builder": "^26.0.0"
   },
   "build": {

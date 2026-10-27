@@ -3,6 +3,7 @@ on:
   push:
     paths:
       - .github/workflows/dependency-audit.yml
+      - package.json
   workflow_dispatch:
 
 permissions:
