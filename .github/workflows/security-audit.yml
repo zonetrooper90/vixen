@@ -1,0 +1,108 @@
+name: Security audit - compare Gallery 0.2.3 and 0.2.4
+on:
+  push:
+    paths:
+      - .github/workflows/security-audit.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  compare-packaged-apps:
+    runs-on: macos-15
+    timeout-minutes: 40
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Fetch original GitHub build artifacts (not new builds)
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/gallery-audit/{old,new}
+          gh run download 40392064240 --repo "${{ github.repository }}" --name Gallery-v0.2.3-Apple-Silicon-DMG --dir /tmp/gallery-audit/old
+          gh run download 40397615415 --repo "${{ github.repository }}" --name Gallery-v0.2.4-Apple-Silicon-DMG --dir /tmp/gallery-audit/new
+          test "$(find /tmp/gallery-audit/old -name '*.dmg' | wc -l | tr -d ' ')" = 1
+          test "$(find /tmp/gallery-audit/new -name '*.dmg' | wc -l | tr -d ' ')" = 1
+          shasum -a 256 /tmp/gallery-audit/{old,new}/*.dmg
+      - name: Mount both images read-only, verify code signature, and extract packaged source
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/gallery-audit/{old,new}/{mount,extracted}
+          hdiutil verify /tmp/gallery-audit/old/Gallery-0.2.3-arm64.dmg
+          hdiutil verify /tmp/gallery-audit/new/Gallery-0.2.4-arm64.dmg
+          hdiutil attach -readonly -nobrowse -mountpoint /tmp/gallery-audit/old/mount /tmp/gallery-audit/old/Gallery-0.2.3-arm64.dmg
+          hdiutil attach -readonly -nobrowse -mountpoint /tmp/gallery-audit/new/mount /tmp/gallery-audit/new/Gallery-0.2.4-arm64.dmg
+          for version in old new; do
+            APP="/tmp/gallery-audit/$version/mount/Gallery.app"
+            codesign --verify --deep --strict "$APP"
+            test -f "$APP/Contents/Resources/app.asar"
+          done
+          npm install --no-audit --no-fund
+          node - <<'NODE'
+          const asar = require('@electron/asar');
+          for(const v of ['old','new']) {
+            asar.extractAll('/tmp/gallery-audit/'+v+'/mount/Gallery.app/Contents/Resources/app.asar', '/tmp/gallery-audit/'+v+'/extracted');
+          }
+          NODE
+      - name: Enforce allowed packaged-app differences
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          from pathlib import Path
+          import hashlib, json
+          root=Path('/tmp/gallery-audit')
+          old=root/'old'/'extracted'
+          new=root/'new'/'extracted'
+          def files(base):
+              return {str(p.relative_to(base)):hashlib.sha256(p.read_bytes()).hexdigest() for p in base.rglob('*') if p.is_file()}
+          a,b=files(old),files(new)
+          changed=sorted(k for k in a.keys()|b.keys() if a.get(k)!=b.get(k))
+          allowed={'app/index.html','app/renderer.js','app/style.css','package.json'}
+          report={'previous_commit':'c3d2b273e0ac648641c7242a3288b17735c8a200',
+                  'current_commit':'ceb0f4b36afb4f12d15d51fc5bd2c8eb5a9d942b',
+                  'old_file_count':len(a),'new_file_count':len(b),
+                  'changed_packaged_files':changed,
+                  'unexpected_packaged_files':sorted(set(changed)-allowed),
+                  'native_module_hashes_equal':all(a.get(k)==b.get(k) for k in ['electron/main.cjs','electron/preload.cjs','electron/settings.cjs','electron/vlc.cjs'])}
+          Path('/tmp/gallery-audit/report.json').write_text(json.dumps(report,indent=2)+'\n')
+          print(json.dumps(report,indent=2))
+          assert not report['unexpected_packaged_files'], 'Unexpected files changed inside the packaged application'
+          assert report['native_module_hashes_equal'], 'Native Electron modules changed'
+          assert len(changed)>0, 'No expected application changes found'
+          PY
+      - name: Scan both mounted applications with updated ClamAV definitions
+        run: |
+          set -euo pipefail
+          brew install clamav
+          CLAM_DIR="$(brew --prefix)/etc/clamav"
+          sudo mkdir -p "$CLAM_DIR"
+          FRESHCLAM_CONFIG="$(brew --prefix)/etc/clamav/freshclam.conf"
+          if [ ! -e "$FRESHCLAM_CONFIG" ]; then
+            printf "DatabaseMirror database.clamav.net\n" | sudo tee "$FRESHCLAM_CONFIG" >/dev/null
+          fi
+          freshclam --config-file="$FRESHCLAM_CONFIG"
+          clamscan --recursive --infected --no-summary /tmp/gallery-audit/old/mount/Gallery.app /tmp/gallery-audit/new/mount/Gallery.app
+          echo 'Malware signature scan completed without detections.' >> "$GITHUB_STEP_SUMMARY"
+      - name: Write security audit summary
+        if: always()
+        run: |
+          echo '## Gallery 0.2.3 vs 0.2.4 forensic comparison' >> "$GITHUB_STEP_SUMMARY"
+          if [ -f /tmp/gallery-audit/report.json ]; then
+            echo '\`\`\`json' >> "$GITHUB_STEP_SUMMARY"
+            cat /tmp/gallery-audit/report.json >> "$GITHUB_STEP_SUMMARY"
+            echo '\`\`\`' >> "$GITHUB_STEP_SUMMARY"
+          fi
+          echo 'Note: passing codesign and malware signatures do not establish that a file is safe or explain a Chrome Safe Browsing verdict.' >> "$GITHUB_STEP_SUMMARY"
+      - name: Upload source-diff report only (no executables)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: gallery-0.2.3-to-0.2.4-security-audit
+          path: /tmp/gallery-audit/report.json
+          if-no-files-found: ignore
+          retention-days: 30
