@@ -21,6 +21,7 @@ const demo=[
 ];
 const state={playback:null,playbackReturnScroll:0,view:'discover',theme:'neon',tag:'All Titles',filterStatus:'All',filterAudio:'All',downloadStatus:'All',query:'',tags:['Watching','Downloads','Plan to Watch','Comfort Picks','Weekend Queue'],kind:{'Watching':'system','Downloads':'system','Plan to Watch':'system','Comfort Picks':'custom','Weekend Queue':'custom'},importDoc:null,detailId:null,detailSeason:0,detailEpisode:1,detailReturnView:'discover',detailReturnScroll:0,detailAudio:null,detailRelated:null,installmentTab:'seasons',seasonTags:{},defaultPlayback:'sub',defaultDownload:'sub',defaultSubtitles:true};
 const screen=document.getElementById('screen'); const workspace=document.getElementById('workspace'); const modalHost=document.getElementById('modal-host');
+let modalExitTimer=null;
 function countTag(t){return t==='All Titles'?demo.length:demo.filter(x=>x.tags.includes(t)).length;}
 function setView(view){state.playback=null;state.view=view;state.detailId=null;state.query='';for(const tab of document.querySelectorAll('.tab')){const active=tab.dataset.view===view;tab.classList.toggle('active',active);if(active)tab.setAttribute('aria-current','page');else tab.removeAttribute('aria-current');}render();workspace.scrollTop=0;}
 function artCard(item){return `<article class="poster-item"><button class="poster-button" data-detail="${escapeHTML(item.id)}" title="View ${escapeHTML(item.name)}"><div class="poster" style="background:${item.art}"><span class="art-orb"></span><span class="poster-name">${escapeHTML(item.name)}</span></div><div class="poster-title">${escapeHTML(item.name)}</div><div class="meta">${escapeHTML(item.status)} · ${escapeHTML(item.lang)}</div></button></article>`;}
@@ -384,7 +385,16 @@ function render(){
  const oldTagScroll=screen.querySelector('.tagbar')?.scrollLeft||0;
  const priorRailScroll=screen.querySelector('#inline-installment-rail')?.scrollLeft||0;
  workspace.classList.toggle('library-view',state.view==='library'&&!state.detailId);
+ // Animate actual screen navigation, not routine player updates or episode selections.
+ const surfaceKey=state.playback?'playback':state.detailId?'detail:'+state.detailId:state.view==='discover'?'discover:'+state.filterStatus+':'+state.filterAudio:state.view==='library'?'library:'+state.tag:'downloads:'+state.downloadStatus;
+ const surfaceChanged=screen.dataset.surfaceKey!==surfaceKey;
+ screen.dataset.surfaceKey=surfaceKey;
  screen.innerHTML=state.playback?playbackPage():state.detailId?detailPage():state.view==='discover'?discover():state.view==='library'?library():downloads();
+ if(surfaceChanged){
+  screen.classList.remove('surface-enter');
+  void screen.offsetWidth;
+  screen.classList.add('surface-enter');
+ }
  if(state.playback){
    document.getElementById('back-from-playback')?.addEventListener('click',backFromPlayback);
    initializePlayer();return;
@@ -425,8 +435,20 @@ function render(){
  on('filters',showFilters);on('resume',()=>showDetail('demo:02'));on('import',showImport);on('newtag',showNewTag);on('sharetag',showShare);on('renametag',showRenameTag);on('openfolder',showFolderInfo);
  for(const el of screen.querySelectorAll('[data-download-filter]'))el.addEventListener('click',()=>{state.downloadStatus=el.dataset.downloadFilter;render();});
 }
-function modal(title,inner,actions=''){modalHost.innerHTML=`<div class="overlay" role="presentation"><div class="dialog" role="dialog" aria-modal="true" aria-label="${escapeHTML(title)}"><div class="dialog-head"><h2>${escapeHTML(title)}</h2><button class="iconbtn" aria-label="Close dialog" id="close-dialog">${icon('close',20)}</button></div>${inner}${actions?`<div class="dialog-actions">${actions}</div>`:''}</div></div>`;modalHost.querySelector('.overlay').addEventListener('click',e=>{if(e.target.classList.contains('overlay'))closeModal()});document.getElementById('close-dialog').addEventListener('click',closeModal);modalHost.querySelector('button:not(#close-dialog),input,select')?.focus();}
-function closeModal(){modalHost.innerHTML='';}
+function modal(title,inner,actions=''){
+ clearTimeout(modalExitTimer);modalExitTimer=null;
+ modalHost.innerHTML=`<div class="overlay" role="presentation"><div class="dialog" role="dialog" aria-modal="true" aria-label="${escapeHTML(title)}"><div class="dialog-head"><h2>${escapeHTML(title)}</h2><button class="iconbtn" aria-label="Close dialog" id="close-dialog">${icon('close',20)}</button></div>${inner}${actions?`<div class="dialog-actions">${actions}</div>`:''}</div></div>`;modalHost.querySelector('.overlay').addEventListener('click',e=>{if(e.target.classList.contains('overlay'))closeModal()});document.getElementById('close-dialog').addEventListener('click',closeModal);modalHost.querySelector('button:not(#close-dialog),input,select')?.focus();}
+function closeModal(){
+ const overlay=modalHost.querySelector('.overlay');
+ if(!overlay)return;
+ clearTimeout(modalExitTimer);
+ if(window.matchMedia('(prefers-reduced-motion: reduce)').matches){modalHost.innerHTML='';return;}
+ overlay.classList.add('is-closing');
+ modalExitTimer=setTimeout(()=>{
+  if(modalHost.firstElementChild===overlay)modalHost.innerHTML='';
+  modalExitTimer=null;
+ },150);
+}
 function showDetail(id){const x=demo.find(t=>t.id===id);if(!x)return;state.playback=null;state.detailReturnView=state.view;state.detailReturnScroll=workspace.scrollTop;state.detailId=id;state.detailSeason=0;state.detailRelated=null;state.installmentTab='seasons';state.detailEpisode=1;state.detailAudio=null;closeModal();render();workspace.scrollTop=0;}
 function showFolderInfo(){modal('Downloads folder',`<p class="description">In the finished macOS application, this button will open your configured download folder in Finder.</p><div class="dialog-sample"><b>Design prototype</b><p class="description">This standalone HTML demo has no access to a real application's downloaded files or chosen folder.</p></div>`,`<button class="btn primary" id="folder-okay">Got it</button>`);document.getElementById('folder-okay').onclick=closeModal;}
 function showSettings(){
@@ -438,7 +460,7 @@ function showSettings(){
  <div class="field"><label for="pref-playback">Default playback audio</label>${selectAudio('pref-playback',state.defaultPlayback)}</div>
  <div class="field"><label for="pref-download">Default download language</label>${selectAudio('pref-download',state.defaultDownload)}</div>
  <div class="field"><label for="pref-subs">Subtitles enabled when playback starts</label><select id="pref-subs"><option value="on" ${state.defaultSubtitles?'selected':''}>On</option><option value="off" ${!state.defaultSubtitles?'selected':''}>Off</option></select></div>
- </div><div class="dialog-sample"><span class="label">Player integration · v0.2.5</span><div class="field"><label for="player-pref">Preferred player for local files</label><select id="player-pref"><option value="built-in" ${(state.playerPreference||'built-in')==='built-in'?'selected':''}>Built-in (default)</option><option value="vlc" ${state.playerPreference==='vlc'?'selected':''}>VLC (external · optional)</option></select></div><p class="tip">External player compatibility, subtitles, and watch progress are not guaranteed. Gallery recommends the built-in player. VLC detection uses macOS Spotlight metadata and standard application locations — no full disk scan.</p><button class="btn small" id="locate-vlc">Locate VLC manually…</button><div class="tip" id="vlc-detection">Optional: select a custom VLC installation path.</div></div><p class="tip">This is a development build. The app saves appearance and playback preferences locally. Provider streaming and real downloads are not implemented yet.</p>`,
+ </div><div class="dialog-sample"><span class="label">Player integration · v0.2.6</span><div class="field"><label for="player-pref">Preferred player for local files</label><select id="player-pref"><option value="built-in" ${(state.playerPreference||'built-in')==='built-in'?'selected':''}>Built-in (default)</option><option value="vlc" ${state.playerPreference==='vlc'?'selected':''}>VLC (external · optional)</option></select></div><p class="tip">External player compatibility, subtitles, and watch progress are not guaranteed. Gallery recommends the built-in player. VLC detection uses macOS Spotlight metadata and standard application locations — no full disk scan.</p><button class="btn small" id="locate-vlc">Locate VLC manually…</button><div class="tip" id="vlc-detection">Optional: select a custom VLC installation path.</div></div><p class="tip">This is a development build. The app saves appearance and playback preferences locally. Provider streaming and real downloads are not implemented yet.</p>`,
  `<button class="btn primary" id="apply-preferences">Apply preferences</button>`);
  for(const el of modalHost.querySelectorAll('[data-theme-button]'))el.onclick=()=>{const playback=document.getElementById('pref-playback').value;const download=document.getElementById('pref-download').value;const subs=document.getElementById('pref-subs').value;state.theme=el.dataset.themeButton;state.defaultPlayback=playback;state.defaultDownload=download;state.defaultSubtitles=subs==='on';document.body.dataset.theme=state.theme;saveDesktopPreferences();showSettings();};
  document.getElementById('locate-vlc')?.addEventListener('click',async()=>{if(!window.galleryDesktop){document.getElementById('vlc-detection').textContent='Available in the macOS app only.';return;}const found=await window.galleryDesktop.locateVLC();document.getElementById('vlc-detection').textContent=found.ok?'Selected: '+found.path:found.message;});

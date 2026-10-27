@@ -26,3 +26,18 @@ test('episode navigation shares the player frame width and centers the info betw
  assert.match(css,/grid-template-columns:minmax\(0,1fr\) minmax\(0,2fr\) minmax\(0,1fr\)/);
  assert.match(css,/\.player-episode-label\{min-width:0;text-align:center\}/);
 });
+
+test('navigation motion is scoped to screen changes rather than player updates',()=>{
+ assert.match(renderer,/const surfaceChanged=screen\.dataset\.surfaceKey!==surfaceKey/);
+ assert.match(renderer,/if\(surfaceChanged\)\{/);
+ assert.match(renderer,/screen\.classList\.add\('surface-enter'\)/);
+ assert.match(css,/#screen\.surface-enter\{animation:gallery-surface-in \.24s/);
+});
+
+test('dialogs have safe animated dismissal and reduced motion support',()=>{
+ assert.match(renderer,/clearTimeout\(modalExitTimer\);modalExitTimer=null;/);
+ assert.match(renderer,/overlay\.classList\.add\('is-closing'\)/);
+ assert.match(renderer,/if\(modalHost\.firstElementChild===overlay\)modalHost\.innerHTML='';/);
+ assert.match(css,/\.overlay\.is-closing\{animation:gallery-backdrop-out \.14s/);
+ assert.match(css,/prefers-reduced-motion:reduce\)\{[\s\S]*?#screen\.surface-enter,[^}]+animation:none!important/);
+});
