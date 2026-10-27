@@ -1,0 +1,34 @@
+name: Export Gallery v0.2.6 browser animation preview
+
+on:
+  push:
+    paths:
+      - .github/workflows/export-browser-preview.yml
+      - scripts/export-browser-preview.cjs
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  browser-preview:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out Gallery source
+        uses: actions/checkout@v4
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Export exact single-file browser preview
+        run: |
+          node scripts/export-browser-preview.cjs
+          node --check app/renderer.js
+          test -s dist-preview/Gallery-v0.2.6-Animation-Preview.html
+      - name: Upload standalone HTML
+        uses: actions/upload-artifact@v4
+        with:
+          name: Gallery-v0.2.6-Standalone-HTML-Preview
+          path: dist-preview/Gallery-v0.2.6-Animation-Preview.html
+          if-no-files-found: error
+          retention-days: 30
