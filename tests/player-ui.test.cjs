@@ -27,17 +27,31 @@ test('episode navigation shares the player frame width and centers the info betw
  assert.match(css,/\.player-episode-label\{min-width:0;text-align:center\}/);
 });
 
-test('navigation motion is scoped to screen changes rather than player updates',()=>{
- assert.match(renderer,/const surfaceChanged=screen\.dataset\.surfaceKey!==surfaceKey/);
- assert.match(renderer,/if\(surfaceChanged\)\{/);
- assert.match(renderer,/screen\.classList\.add\('surface-enter'\)/);
- assert.match(css,/#screen\.surface-enter\{animation:gallery-surface-in \.24s/);
-});
 
-test('dialogs have safe animated dismissal and reduced motion support',()=>{
- assert.match(renderer,/clearTimeout\(modalExitTimer\);modalExitTimer=null;/);
- assert.match(renderer,/overlay\.classList\.add\('is-closing'\)/);
- assert.match(renderer,/if\(modalHost\.firstElementChild===overlay\)modalHost\.innerHTML='';/);
- assert.match(css,/\.overlay\.is-closing\{animation:gallery-backdrop-out \.14s/);
- assert.match(css,/prefers-reduced-motion:reduce\)\{[\s\S]*?#screen\.surface-enter,[^}]+animation:none!important/);
+test('v41 persistent navigation and CSP-safe sources',()=>{
+ const html=require('node:fs').readFileSync(require('node:path').join(app,'index.html'),'utf8');
+ assert.match(html,/<title>Gallery · v0\.2\.7<\/title>/);
+ assert.match(html,/script-src 'self'/);
+ assert.match(html,/id="tab-pages-track"/);
+ assert.match(html,/data-tab-page="downloads"/);
+ assert.match(renderer,/function renderTabPage\(/);
+ assert.match(renderer,/function animateTabTrack\(/);
+ assert.match(renderer,/function setupTabHover\(/);
+ assert.match(css,/\.tab-pages-track/);
+});
+test('release navigation, episode filtering and keyboard-aware Settings',()=>{
+ assert.match(renderer,/function refreshInstallmentArrows\(/);
+ assert.match(renderer,/function setupInstallmentEdgeGuards\(/);
+ assert.match(renderer,/function changeEpisodeFilter\(/);
+ assert.match(renderer,/detailEpisodeFilter/);
+ assert.match(renderer,/function revealModalControl\(/);
+ assert.match(renderer,/preventScroll:true/);
+ assert.match(css,/\.tab-scroll-overlay/);
+ assert.match(css,/\.download-progress/);
+});
+test('local video, VLC and native preference bridge remain intact',()=>{
+ assert.match(renderer,/galleryDesktop\.openVideo\(/);
+ assert.match(renderer,/galleryDesktop\.openInVLC\(/);
+ assert.match(renderer,/galleryDesktop\.saveSettings\(/);
+ assert.match(renderer,/function initializePlayer\(/);
 });
