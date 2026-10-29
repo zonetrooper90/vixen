@@ -1,4 +1,3 @@
-
 :root {font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","Segoe UI",sans-serif; font-size:14px; font-synthesis:none}
 *{box-sizing:border-box}html,body{height:100%;margin:0}button,input,select{font:inherit}button{cursor:pointer}button:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid var(--accent);outline-offset:3px}button:disabled{opacity:.5;cursor:not-allowed}
 body[data-theme="neon"]{--window:#171221;--surface:#211a2c;--raised:#2a2137;--hover:#372a47;--line:#3a2c4b;--ink:#f0eafa;--muted:#b4a6c7;--accent:#c5a0ed;--accent-ink:#fdf9ff;--tab:#624877;--strong:#4a345f;--glow:rgba(174,131,230,.20);--shadow:rgba(11,8,17,.55);--desktop:#0c0911}
@@ -11,7 +10,24 @@ body{background:var(--desktop);color:var(--ink);padding:20px;transition:backgrou
 .continue{background:radial-gradient(ellipse at 90% 5%,var(--glow),transparent 52%),var(--raised);padding:24px 24px 19px;border-radius:17px;display:flex;gap:20px;align-items:center;margin-bottom:30px;border:1px solid var(--line)}.continue-icon{width:64px;height:72px;border-radius:12px;background:linear-gradient(155deg,#704e83,#305a76);display:grid;place-items:center;color:#ead4ff}.continue-copy{flex:1;min-width:0}.continue-heading{font-size:12px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);font-weight:700}.continue-title{font-size:18px;font-weight:700;margin:6px 0 4px}.progress-track{height:6px;border-radius:9px;background:var(--line);overflow:hidden;margin-top:13px;max-width:410px}.progress-fill{background:var(--accent);width:58%;height:100%;border-radius:9px}.section-row{margin:10px 0 17px}.poster-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:22px 15px}.poster-item{min-width:0}.poster{width:100%;aspect-ratio:2/3;position:relative;border:1px solid rgba(255,255,255,.11);border-radius:12px;overflow:hidden;display:flex;align-items:center;justify-content:center;text-align:center;padding:13px;box-shadow:0 8px 22px rgba(0,0,0,.09);isolation:isolate;transition:transform .15s,box-shadow .15s}.poster:hover{transform:translateY(-3px);box-shadow:0 14px 24px rgba(0,0,0,.22)}.poster:before{content:"";position:absolute;width:150%;aspect-ratio:1;border:2px solid rgba(255,255,255,.2);border-radius:50%;top:-35%;left:-55%;transform:rotate(30deg);z-index:-1}.poster:after{content:"";position:absolute;height:34%;width:155%;background:linear-gradient(135deg,transparent,rgba(0,0,0,.34));bottom:-16%;left:-15%;transform:rotate(-15deg);z-index:-1}.poster .art-orb{position:absolute;top:22%;left:27%;width:47%;aspect-ratio:1;border-radius:50%;background:radial-gradient(circle at 32% 30%,rgba(255,255,255,.62),rgba(255,255,255,.04) 62%,transparent 70%);border:1px solid rgba(255,255,255,.25);z-index:-1}.poster-name{font-family:Georgia,"Times New Roman",serif;font-weight:700;font-size:clamp(14px,1.7vw,25px);line-height:1.1;letter-spacing:-.035em;color:#fff;text-shadow:0 2px 13px rgba(0,0,0,.45);margin-top:70%;text-wrap:balance}.poster-title{font-weight:600;font-size:13px;line-height:1.35;white-space:nowrap;text-overflow:ellipsis;overflow:hidden;margin-top:10px}.meta{font-size:11px;color:var(--muted);margin-top:4px}.poster-button{display:block;width:100%;padding:0;border:0;background:transparent;color:inherit;text-align:left}
 .tagbar{display:flex;gap:8px;align-items:center;overflow-x:auto;padding:3px 0 11px;margin:0 0 22px;scrollbar-width:thin}.tagchip{border:1px solid var(--line);border-radius:999px;background:var(--surface);color:var(--muted);padding:9px 13px;display:flex;align-items:center;gap:7px;white-space:nowrap;flex:none;font-size:12.5px}.tagchip:hover{background:var(--hover)}.tagchip.active{background:var(--strong);border-color:var(--accent);color:var(--ink)}.count{opacity:.65;font-size:11px}.collection-panel{border:1px solid var(--line);border-radius:16px;background:var(--surface);padding:20px 20px 22px}.collection-icon{color:var(--accent);width:42px;height:42px;border-radius:12px;background:var(--raised);display:grid;place-items:center}.collections-head{align-items:flex-start}.col-title-row{display:flex;align-items:center;gap:12px}.col-description{color:var(--muted);margin:8px 0 0;font-size:13px}.col-contents{margin-top:22px}.empty{padding:30px;text-align:center;background:var(--raised);border-radius:12px;color:var(--muted)}.tip{font-size:12px;color:var(--muted);margin:17px 0 0}.highlight{color:var(--accent)}
 .statrow{display:flex;gap:9px;flex-wrap:wrap;margin:3px 0 19px}.stat{background:var(--surface);border:1px solid var(--line);border-radius:11px;padding:9px 12px;color:var(--muted);font-size:12px}.stat strong{color:var(--ink)}.filter-pills{display:flex;gap:8px;flex-wrap:wrap}.filterpill{border:1px solid var(--line);border-radius:999px;padding:8px 13px;background:var(--surface);color:var(--muted);font-size:12px}.filterpill.active{color:var(--ink);background:var(--strong);border-color:var(--accent)}
-.download-row{display:grid;grid-template-columns:58px 1fr auto;gap:16px;align-items:center;border:1px solid var(--line);border-radius:13px;padding:13px;margin:12px 0;background:var(--surface)}.tiny-art{height:77px;border-radius:7px}.download-title{font-weight:700;margin:0 0 5px}.download-progress{height:5px;background:var(--line);border-radius:10px;margin-top:13px;max-width:380px}.download-progress>i{display:block;background:var(--accent);height:100%;border-radius:10px}
+.download-row{display:grid;grid-template-columns:58px 1fr auto;gap:16px;align-items:center;border:1px solid var(--line);border-radius:13px;padding:13px;margin:12px 0;background:var(--surface)}.tiny-art{height:77px;border-radius:7px}.download-title{font-weight:700;margin:0 0 5px}.download-progress{height:5px;margin-top:13px;max-width:380px;width:100%;gap:5px;background:transparent}.download-progress .player-watched{flex-shrink:0;transition:flex-basis .28s ease}.download-progress .player-remaining{min-width:0}
+/* v14 · Shared player-style progress track with a readable, aligned percentage. */
+.download-progress-line{display:flex;align-items:center;gap:12px;margin-top:13px;max-width:438px;min-width:0}
+.download-progress-line .download-progress{flex:1 1 auto;min-width:0;margin-top:0}
+.download-percent{flex:none;min-width:4ch;text-align:right;white-space:nowrap;font-size:12px;line-height:1.2;font-weight:650;font-variant-numeric:tabular-nums;color:var(--muted)}
+.download-row[data-completed="true"] .download-percent{color:var(--ink)}
+
+
+/* v15: Percentages acknowledge completion, then disappear without moving the timeline. */
+.download-percent{transition:opacity .42s ease,visibility 0s linear .42s}
+.download-percent.is-hidden{opacity:0;visibility:hidden}
+.download-row .download-status{font-variant-numeric:tabular-nums}
+.demo-download-footer{display:flex;align-items:center;flex-wrap:wrap;gap:7px 14px;margin-top:11px}
+.demo-download-footer .tip{margin:0}
+.demo-download-control{padding:2px 0;border:0;background:none;color:var(--accent);font-weight:650;font-size:12px;cursor:pointer;text-decoration:underline;text-underline-offset:3px}
+.demo-download-control:hover{color:var(--ink)}
+@media(prefers-reduced-motion:reduce){.download-percent{transition:none!important}}
+
 .overlay{position:fixed;inset:0;background:rgba(0,0,0,.61);display:grid;place-items:center;z-index:20;padding:20px}.dialog{width:min(530px,100%);max-height:min(680px,90vh);overflow-y:auto;border:1px solid var(--line);border-radius:20px;background:var(--window);color:var(--ink);padding:24px;box-shadow:0 25px 85px var(--shadow)}.dialog-head{display:flex;align-items:center;justify-content:space-between;gap:15px;margin-bottom:19px}.dialog-head h2{font-size:22px}.dialog .description{line-height:1.5}.dialog-actions{display:flex;justify-content:flex-end;gap:9px;margin-top:24px;flex-wrap:wrap}.field{display:flex;flex-direction:column;gap:7px;margin-top:18px}.field label,.label{font-size:12px;color:var(--muted);font-weight:650}.field input,.field select{border:1px solid var(--line);background:var(--raised);border-radius:10px;color:var(--ink);padding:12px 13px;outline-offset:2px}.option{display:flex;gap:12px;align-items:flex-start;border:1px solid var(--line);padding:13px;border-radius:12px;background:var(--surface);margin-top:8px;cursor:pointer}.option input{accent-color:var(--accent);margin-top:3px}.option b{display:block;margin-bottom:3px}.option small{display:block;color:var(--muted);line-height:1.45}.theme-list{display:grid;gap:9px;margin-top:14px}.theme-tile{width:100%;display:flex;align-items:center;gap:12px;text-align:left;padding:12px;border:1px solid var(--line);background:var(--surface);border-radius:12px;color:var(--ink)}.theme-tile[aria-pressed="true"]{border-color:var(--accent);background:var(--raised)}.swatch{width:35px;height:35px;border-radius:9px;border:1px solid rgba(255,255,255,.15)}.dialog-sample{border:1px solid var(--line);border-radius:12px;padding:14px;background:var(--surface);margin-top:18px}.result-list{max-height:260px;overflow-y:auto;display:grid;gap:7px;margin-top:12px}.searchresult{padding:11px;text-align:left;background:var(--raised);border:1px solid var(--line);color:var(--ink);border-radius:10px;display:flex;justify-content:space-between;gap:10px;align-items:center}.error{color:#ff9b9b}.success{color:var(--accent)}.only-sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap}.footer-note{color:var(--muted);font-size:11px;text-align:center;margin:32px 0 0}
 @media(max-width:1050px){.poster-grid{grid-template-columns:repeat(4,minmax(0,1fr))}}@media(max-width:750px){body{padding:0}.app{height:100dvh;min-height:100dvh;border-radius:0;border:none}.top{padding:17px 17px 13px}.workspace{padding:24px 17px 35px}.poster-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:17px 10px}.brandname{font-size:17px}.subtitle{display:none}.tab{font-size:12px;padding:11px 4px;gap:6px}.heading-row{align-items:flex-start}.heading-row h1{font-size:26px}.collection-panel{padding:14px}.collections-head{flex-wrap:wrap}.continue{padding:17px}.continue-icon{display:none}}
 @media(max-width:430px){.poster-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.tab svg{width:16px;height:16px}.tabs{gap:2px}.tab{font-size:11px}.heading-row{display:block}.heading-row .actions{margin-top:14px}.download-row{grid-template-columns:48px 1fr}.download-row>.btn{grid-column:2;justify-self:start}}
@@ -114,9 +130,9 @@ body{background:var(--desktop);color:var(--ink);padding:20px;transition:backgrou
 .availability-value{font-weight:720;color:var(--ink);font-variant-numeric:tabular-nums}
 .availability small{display:block;font-size:10px;opacity:.75;margin-top:2px}
 .availability .season-status{margin-left:auto;font-size:11px;color:var(--muted)}
-.episode-list{display:flex;flex-direction:column;gap:5px}
-.episode-item{display:grid;grid-template-columns:44px minmax(160px,1fr) minmax(140px,auto) auto;align-items:center;gap:14px;border:1px solid transparent;border-bottom-color:var(--line);border-radius:10px;min-height:74px;padding:10px 12px;transition:background .14s}
-.episode-item:hover{background:var(--surface);border-color:var(--line)}
+.episode-list{display:flex;flex-direction:column;gap:0}
+.episode-item{display:grid;grid-template-columns:44px minmax(160px,1fr) minmax(140px,auto) auto;align-items:center;gap:14px;border:0;border-radius:0;min-height:74px;padding:10px 12px;background:transparent;box-shadow:none;cursor:default}
+.episode-divider{height:1px;flex:none;background:var(--line);margin:7px 12px;pointer-events:none}
 .episode-no{font-size:21px;color:var(--muted);font-weight:550;letter-spacing:-.045em;font-variant-numeric:tabular-nums}
 .episode-name{font-size:13px;font-weight:700;line-height:1.4;margin-bottom:5px}.episode-subtext{font-size:11px;color:var(--muted)}
 .episode-flags{display:flex;align-items:center;gap:7px;flex-wrap:wrap}
@@ -132,17 +148,43 @@ body{background:var(--desktop);color:var(--ink);padding:20px;transition:backgrou
 @media(max-width:570px){.detail-hero{grid-template-columns:114px minmax(0,1fr);gap:15px;margin-bottom:23px}.detail-title{font-size:24px}.detail-cover{border-radius:10px;padding:9px}.detail-cover-name{font-size:15px}.detail-description{font-size:12px;line-height:1.5;margin-bottom:11px}.detail-kicker{font-size:9px}.detail-badges{gap:5px;margin-bottom:10px}.detail-badge{padding:5px 7px;font-size:10px}.detail-actions .btn{min-height:34px;padding:8px;font-size:11px;gap:5px}.detail-helper{font-size:10px}.availability{gap:8px}.availability .season-status{margin-left:0}.availability-label{font-size:11px}.detail-section-head h2{font-size:18px}.season-select{gap:5px}.season-select select{max-width:138px}.episode-item{padding:9px 4px;grid-template-columns:27px minmax(100px,1fr) auto}.episode-no{font-size:16px}.episode-name{font-size:12px}.episode-actions .iconbtn{width:31px;height:31px}.audio-flag{padding:5px 7px;font-size:9px}}
 @media(max-width:370px){.detail-hero{grid-template-columns:95px minmax(0,1fr);gap:10px}.detail-cover-name{font-size:13px}.detail-title{font-size:21px}.detail-badge:nth-child(3){display:none}.detail-actions{gap:5px}}
 
-/* Shared availability indicators and episode selection. */
+/* Shared availability indicators. */
 .preferred-badge{font-size:11px;font-weight:680;border:1px solid var(--line);padding:5px 9px;border-radius:999px;white-space:nowrap;background:var(--raised);color:var(--muted)}
 .preferred-badge.available{border-color:var(--accent);color:var(--accent);background:var(--surface)}
 .preferred-badge.unavailable{color:var(--ink);border-color:var(--line);background:var(--raised)}
 .preferred-badge.unknown{border-style:dashed}
-.episode-item.selected{border-color:var(--line);background:var(--surface)}
-.episode-select{display:block;text-align:left;width:100%;min-width:0;border:0;padding:5px 0;background:none;color:var(--ink);border-radius:5px;white-space:normal;cursor:pointer}
-.episode-select:hover .episode-name{text-decoration:underline;text-decoration-color:var(--accent);text-underline-offset:3px}
-.episode-item.selected .episode-no{color:var(--accent)}
-.episode-selected{font-size:10px;font-weight:650;color:var(--accent);margin-left:6px;white-space:nowrap}
 @media(max-width:570px){.preferred-badge{font-size:10px}}
+
+/* v25 — Audio segmented pill, season overflow and action-aligned episode flags. */
+.detail-audio-toggle{position:relative;isolation:isolate;overflow:hidden}
+.detail-audio-highlight{position:absolute;left:4px;top:4px;bottom:4px;width:calc((100% - 12px)/2);border:1px solid var(--accent);border-radius:9px;background:var(--tab);transform:translateX(0);transition:transform .34s cubic-bezier(.22,.72,.19,1);pointer-events:none;z-index:0;box-sizing:border-box}
+.detail-audio-toggle[data-active="dub"] .detail-audio-highlight{transform:translateX(calc(100% + 4px))}
+.detail-audio-toggle button{z-index:1;position:relative;transition:color .18s ease,background .18s ease}
+.detail-audio-toggle button[aria-pressed="true"]{background:transparent;border-color:transparent;color:var(--accent-ink)}
+.detail-audio-toggle.is-returning .detail-audio-highlight{transition-duration:.52s;transition-timing-function:cubic-bezier(.20,.74,.18,1)}
+.detail-audio-toggle button::before{content:"";position:absolute;inset:0;border:1px solid color-mix(in srgb,var(--accent) 60%,transparent);border-radius:8px;background:color-mix(in srgb,var(--accent) 8%,transparent);opacity:0;pointer-events:none;z-index:-1;transition:opacity .42s ease-in-out}
+.detail-audio-toggle.is-hovering-other button[aria-pressed="true"]::before{opacity:1}
+.detail-audio-toggle.is-hovering-other button[aria-pressed="true"]{color:var(--accent)}
+.inline-installment-top[hidden],.inline-installment-arrows[hidden]{display:none!important}
+.inline-arrow:disabled{opacity:.34;cursor:default;pointer-events:none}
+.episode-item{grid-template-columns:44px minmax(0,1fr) auto}
+.episode-tools{grid-column:3;display:flex;align-items:center;justify-content:flex-end;gap:12px;min-width:0}
+.episode-copy{min-width:0}
+@media(max-width:850px){
+ .episode-item{grid-template-columns:36px minmax(0,1fr) auto;min-height:80px}
+ .episode-tools{grid-column:3;grid-row:1;flex-direction:column;align-items:flex-end;gap:7px}
+ .episode-flags{grid-column:auto;grid-row:auto;justify-content:flex-end;gap:4px}
+ .episode-actions{grid-column:auto;grid-row:auto}
+}
+@media(max-width:570px){
+ .episode-item{grid-template-columns:27px minmax(0,1fr) auto;gap:7px}
+ .episode-tools{gap:6px}
+ .episode-flags{gap:3px}
+ .audio-flag{min-width:32px;padding:5px 5px}
+}
+@media(max-width:390px){.episode-item{padding:9px 2px}.episode-tools{gap:4px}.episode-actions{gap:3px}}
+@media(max-width:570px){.episode-divider{margin-inline:4px}}
+@media(prefers-reduced-motion:reduce){.detail-audio-highlight{transition:none}}
 
 /* v0.10 — Connected seasons: title-first cards, independently selected installments,
    separate related films/specials, no synthetic streaming availability claims. */
@@ -181,15 +223,11 @@ body{background:var(--desktop);color:var(--ink);padding:20px;transition:backgrou
 /* v0.12 — in-context installment navigation. Nothing opens over the episode list. */
 .inline-installments{margin-bottom:20px}
 .inline-installment-top{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:10px}
-.inline-installment-tabs{display:flex;gap:5px;align-items:center;min-width:0;overflow-x:auto;scrollbar-width:none}
-.inline-installment-tabs::-webkit-scrollbar{display:none}
-.inline-installment-tab{flex:none;border:1px solid transparent;border-radius:9px;padding:7px 11px;background:transparent;color:var(--muted);font-size:12px;font-weight:670;white-space:nowrap}
-.inline-installment-tab:hover{background:var(--surface);color:var(--ink)}
-.inline-installment-tab[aria-pressed=true]{border-color:var(--line);background:var(--raised);color:var(--ink)}
 .inline-installment-arrows{display:flex;gap:5px;flex:none}
+.inline-installment-top[data-only-arrows="true"]{justify-content:flex-end}
 .inline-arrow{display:grid;place-items:center;background:var(--surface);color:var(--muted);border:1px solid var(--line);height:31px;width:31px;border-radius:9px}
 .inline-arrow:hover{background:var(--hover);color:var(--ink);border-color:var(--accent)}
-.inline-arrow:focus-visible,.inline-installment-card:focus-visible,.inline-installment-tab:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.inline-arrow:focus-visible,.inline-installment-card:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 .inline-arrow.previous .icon{transform:rotate(180deg)}
 .inline-installment-rail{width:100%;display:flex;gap:8px;overflow-x:auto;overscroll-behavior-x:contain;scroll-snap-type:x proximity;scrollbar-width:thin;scrollbar-color:var(--line) transparent;padding:1px 0 6px}
 .inline-installment-card{display:flex;flex:0 0 clamp(180px,25%,290px);align-items:center;justify-content:space-between;gap:8px;min-height:66px;max-width:290px;border-radius:12px;border:1px solid var(--line);background:var(--surface);color:var(--ink);padding:10px 12px;text-align:left;scroll-snap-align:start;transition:border-color .12s,background .12s}
@@ -208,7 +246,7 @@ body{background:var(--desktop);color:var(--ink);padding:20px;transition:backgrou
 }
 @media(max-width:460px){
  .inline-installment-top{gap:5px}
- .inline-installment-tab{padding:7px 9px;font-size:11px}
+ 
  .inline-arrow{width:29px;height:29px}
  .inline-installment-card{flex-basis:76%;max-width:245px}
  .inline-installment-card .installment-name{font-size:12px}
@@ -418,10 +456,450 @@ body.player-view .player-dev-tools{margin:8px auto 0;max-width:1120px;border:1px
  transition:background-color .18s ease,color .18s ease,border-color .18s ease,box-shadow .18s ease,filter .18s ease,transform .16s ease
 }
 .poster{transition:transform .22s cubic-bezier(.2,.75,.2,1),box-shadow .22s ease}
-.episode-item{transition:background-color .18s ease,border-color .18s ease}
+/* Episode rows are non-interactive; only the individual Play and Download buttons respond to hover. */
 .connected-season-card,.inline-installment-card{transition:background-color .18s ease,border-color .18s ease}
 .btn:active:not(:disabled),.iconbtn:active:not(:disabled),.player-icon:active:not(:disabled),.player-main-action:active:not(:disabled){transform:scale(.98)}
 .theme-tile:hover,.searchresult:hover{border-color:var(--accent)}
 @media(prefers-reduced-motion:reduce){
  #screen.surface-enter,.overlay,.overlay .dialog,.overlay.is-closing,.overlay.is-closing .dialog{animation:none!important}
 }
+
+/* TAB MOTION PROTOTYPE v11 — balanced selected-state fade with v10 navigation preserved.
+   Selected location is shown without a disconnected bottom underline. */
+.tabs{position:relative;isolation:isolate}
+.tabs>.tab{position:relative;z-index:1}
+.tabs>.tab.active,.tabs>.tab:hover{background:transparent;box-shadow:none}
+.tabs>.tab-indicator{
+ position:absolute;z-index:0;left:0;pointer-events:none;
+ border-radius:999px;
+ background:var(--tab);
+ border:1px solid var(--accent);
+ box-shadow:0 2px 9px rgba(0,0,0,.10);
+ opacity:.98;
+ box-sizing:border-box;
+ will-change:transform,width;
+}
+/* Width adapts to the hovered label. Movement is eased in JavaScript;
+   the pointer influences the capsule within a safe label-centered range. */
+.tabs>.tab-indicator.is-ready{
+ transition:width .34s cubic-bezier(.22,.72,.19,1),
+ top .3s ease,height .3s ease,background-color .25s ease;
+}
+.tabs>.tab:hover{color:var(--accent-ink)}
+.tabs>.tab.active:not(:hover){color:var(--ink)}
+.tabs:has(.tab:hover)>.tab.active:not(:hover){color:var(--accent)}
+.workspace{position:relative;overflow-x:hidden}
+@media(prefers-reduced-motion:reduce){
+ .tabs>.tab-indicator.is-ready{transition:none!important}
+}
+
+/* v11 — The selected-tab capsule fades in and out at the SAME 420 ms pace.
+   Keep each pseudo-element mounted even when active changes, so switching tabs
+   cannot instantly add/remove the capsule or break its opacity transition.
+   The moving hover pill and the persistent sliding pages are unchanged. */
+.tabs>.tab .tab-label-wrap{
+ position:relative;isolation:isolate;
+ display:inline-flex;align-items:center;justify-content:center;gap:10px;
+ white-space:nowrap
+}
+.tabs>.tab.active{color:var(--accent)!important;font-weight:710}
+.tabs>.tab.active:hover{color:var(--accent-ink)!important}
+.tabs>.tab .tab-label-wrap::before{
+ content:"";position:absolute;inset:-9px -16px;border-radius:999px;
+ background:color-mix(in srgb,var(--accent) 9%,transparent);
+ border:1px solid color-mix(in srgb,var(--accent) 48%,transparent);
+ pointer-events:none;z-index:-1;opacity:0;
+ transition:opacity .42s ease-in-out
+}
+.tabs:has(.tab:hover:not(.active))>.tab.active .tab-label-wrap::before,
+.tabs:has(.tab:focus-visible:not(.active))>.tab.active .tab-label-wrap::before,
+.tabs.pill-hovering-other>.tab.active .tab-label-wrap::before{opacity:1}
+.tabs>.tab:focus-visible{outline:2px solid var(--accent);outline-offset:-1px}
+@media(prefers-reduced-motion:reduce){
+ .tabs>.tab .tab-label-wrap::before{transition:none!important}
+}
+/* v9 persistent-pages architecture retained without alteration. */
+.workspace.tab-pages-visible{padding:0!important;overflow:hidden!important;scrollbar-gutter:auto!important}
+.tab-pages-viewport{height:100%;width:100%;overflow:hidden;min-height:0;position:relative}
+.tab-pages-viewport[hidden]{display:none!important}
+.tab-pages-track{width:100%;height:100%;display:flex;will-change:transform}
+.tab-page{
+ flex:0 0 100%;min-width:0;box-sizing:border-box;height:100%;
+ overflow-y:auto;overflow-x:hidden;overscroll-behavior:contain;
+ padding:32px 28px 54px;scrollbar-color:var(--line) transparent
+}
+.workspace.tab-pages-visible>#screen{display:none!important}
+@media(max-width:750px){.tab-page{padding:24px 17px 35px}}
+@media(prefers-reduced-motion:reduce){.tab-pages-track{transition:none!important;animation:none!important}}
+/* v13 uses width-relative positioning, so resizing does not reveal
+   neighboring tab panels while the selected page is settled or sliding. */
+/* v12 HTML exploration: Downloads shares the player timeline's split accent + remaining design. */
+@media(prefers-reduced-motion:reduce){.download-progress .player-watched{transition:none!important}}
+
+/* v16 — Paper Lantern contrast and Settings scrollbar polish.
+   Deliberately isolated to the light theme: all v15 motion and Downloads states remain unchanged. */
+body[data-theme="paper"] .tabs>.tab {
+  color:#5e4846; /* darker inactive tab labels/icons against the warm tab strip */
+}
+body[data-theme="paper"] .tabs>.tab.active {
+  color:#502936!important; /* selected dark berry: readable on pill AND on background */
+}
+body[data-theme="paper"] .tabs>.tab:hover,
+body[data-theme="paper"] .tabs>.tab.active:hover,
+body[data-theme="paper"] .tabs>.tab:focus-visible,
+body[data-theme="paper"] .tabs>.tab.active:focus-visible {
+  color:#392b34!important; /* >=4.5:1 contrast against the moving rosy pill */
+}
+/* Use a warm, light-colored scrollbar inside Paper Lantern dialogs. */
+body[data-theme="paper"] .dialog-scroll {
+  color-scheme:light;
+  scrollbar-width:thin; /* Firefox, recent Chromium */
+  scrollbar-color:#ad9084 #f1e8df;
+}
+body[data-theme="paper"] .dialog-scroll::-webkit-scrollbar { width:11px; }
+body[data-theme="paper"] .dialog-scroll::-webkit-scrollbar-track {
+  background:#f1e8df;
+  border-radius:999px;
+}
+body[data-theme="paper"] .dialog-scroll::-webkit-scrollbar-thumb {
+  background:#ad9084;
+  border:2px solid #f1e8df;
+  border-radius:999px;
+}
+body[data-theme="paper"] .dialog-scroll::-webkit-scrollbar-thumb:hover {
+  background:#92736c;
+}
+
+/* v17 — The dialog owns the rounded silhouette; a separately scrolling content
+   region keeps the native scrollbar inset from ALL four rounded corners.
+   This is applied to all themes and every modal, without changing page motion. */
+.overlay .dialog{
+  overflow:hidden;
+  display:flex;
+  flex-direction:column;
+  padding:0 6px 0 0;
+}
+.dialog-scroll{
+  flex:1 1 auto;
+  min-height:0;
+  overflow-y:auto;
+  overflow-x:hidden;
+  overscroll-behavior:contain;
+  margin:8px 0;
+  padding:16px 18px 16px 24px;
+  scrollbar-width:thin;
+  scrollbar-color:var(--muted) var(--surface);
+}
+.dialog-scroll::-webkit-scrollbar{width:11px}
+.dialog-scroll::-webkit-scrollbar-track{background:var(--surface);border-radius:999px}
+.dialog-scroll::-webkit-scrollbar-thumb{background:var(--muted);border:2px solid var(--surface);border-radius:999px}
+.dialog-scroll::-webkit-scrollbar-thumb:hover{background:var(--accent)}
+
+/* v20 — Library: direct poster layout, collection-local actions, scalable tag rail. */
+.page-header-library{margin-bottom:19px}
+.page-header-library .page-header-secondary{padding-top:14px}
+.page-header-library .library-tag-row{display:flex;align-items:center;gap:5px;min-width:0}
+.page-header-library .tagbar{position:relative;min-width:0;flex:1;display:flex;align-items:center;gap:8px;margin:0;padding:4px 0;overflow-x:auto;overflow-y:hidden;scrollbar-width:none;overscroll-behavior-x:contain}
+.page-header-library .tagbar::-webkit-scrollbar{display:none}
+.page-header-library .tagbar.can-left{mask-image:linear-gradient(to right,transparent,black 17px,black 100%)}
+.page-header-library .tagbar.can-right{mask-image:linear-gradient(to right,black 0%,black calc(100% - 17px),transparent 100%)}
+.page-header-library .tagbar.can-left.can-right{mask-image:linear-gradient(to right,transparent,black 17px,black calc(100% - 17px),transparent)}
+.library-tag-arrow{display:none;flex:none;width:29px;height:32px;align-items:center;justify-content:center;border:1px solid var(--line);border-radius:9px;background:var(--surface);color:var(--ink);padding:0}
+.library-tag-row.has-overflow .library-tag-arrow{display:flex}
+.library-tag-arrow:hover:not(:disabled){background:var(--hover)}
+.library-tag-arrow:disabled{opacity:.25}
+.library-tag-prev svg{transform:rotate(180deg)}
+.page-header-library .tagchip{padding:8px 13px;gap:7px;min-height:33px}
+.tagchip .custom-tag-icon{color:var(--accent);opacity:.83}
+.tagchip.active .custom-tag-icon{color:var(--ink)}
+.library-collection{min-width:0}
+.library-collection .collections-head{display:flex;align-items:center;justify-content:space-between;gap:16px;min-height:44px;margin-bottom:19px}
+.library-collection .col-title-row h2{font-size:19px;line-height:1.3;letter-spacing:-.026em}
+.library-collection .col-title-row .meta{font-size:12px;margin-top:4px}
+.library-collection .col-contents{margin:0}
+.library-collection .poster-grid{margin:0}
+.library-collection .collection-actions{display:flex;align-items:center;gap:8px;flex:none}
+.library-collection .collection-actions .btn{min-height:35px}
+.library-collection .collection-menu-wrap{position:relative}
+.library-collection .collection-options{width:35px;height:35px;min-height:35px;padding:0}
+.collection-menu{position:absolute;top:calc(100% + 7px);right:0;z-index:10;width:175px;padding:5px;border:1px solid var(--line);border-radius:11px;background:var(--raised);box-shadow:0 12px 28px var(--shadow)}
+.collection-menu[hidden]{display:none}
+.collection-menu button{width:100%;border:0;background:transparent;color:var(--ink);font-size:12px;padding:10px;border-radius:7px;text-align:left;display:flex;align-items:center;gap:10px}
+.collection-menu button:hover,.collection-menu button:focus-visible{background:var(--hover)}
+.collection-menu .delete-tag-action{color:var(--danger-ink,var(--ink));border-top:1px solid var(--line);border-radius:0 0 7px 7px;margin-top:2px;padding-top:12px}
+.library-collection .tip{margin-top:23px}
+@media(max-width:750px){
+  .page-header-library{margin-bottom:17px}
+  .library-collection .collections-head{gap:9px;margin-bottom:15px}
+  .library-collection .col-title-row h2{font-size:18px}
+  .library-collection .collection-actions{gap:5px}
+  .library-collection .collection-actions .btn{font-size:12px;padding:8px 10px}
+  .page-header-library .tagchip{padding:8px 11px}
+}
+@media(max-width:430px){
+  .library-tag-arrow{width:25px;height:30px}
+  .library-collection .collection-actions .btn{padding:8px 9px}
+  .library-collection .col-title-row .meta{font-size:11px}
+}
+
+
+/* v23 — The anime overview and player use the same scrollbar as the main tabs.
+   Scroll indicator belongs to the window, never inside one hidden tab's viewport. */
+.app{position:relative}
+.workspace:not(.tab-pages-visible){
+  scrollbar-width:none;
+  scrollbar-gutter:auto!important;
+  -ms-overflow-style:none;
+}
+.workspace:not(.tab-pages-visible)::-webkit-scrollbar{display:none;width:0;height:0}
+
+/* v22 — No permanent scrollbar or reserved gutter.
+   Main-page scrolling stays native. A shared, overlaid thumb is visible only
+   while the user scrolls. It never reduces the page's content width. */
+.tab-pages-visible .tab-page{
+  overflow-y:auto;
+  scrollbar-gutter:auto;
+  scrollbar-width:none; /* Firefox and modern Chromium */
+  -ms-overflow-style:none;
+}
+.tab-pages-visible .tab-page::-webkit-scrollbar{
+  display:none;
+  width:0;
+  height:0;
+}
+.tab-scroll-overlay{
+  position:absolute;
+  top:6px;
+  right:5px;
+  bottom:6px;
+  width:8px;
+  z-index:3;
+  pointer-events:none;
+  opacity:0;
+  transition:opacity .4s ease;
+}
+.tab-scroll-overlay.is-visible{opacity:1}
+.tab-scroll-thumb{
+  position:absolute;
+  top:0;
+  right:0;
+  width:7px;
+  height:46px;
+  background:color-mix(in srgb,var(--muted) 72%,transparent);
+  border-radius:999px;
+  box-shadow:0 0 0 1px color-mix(in srgb,var(--window) 35%,transparent);
+  pointer-events:none;
+}
+.tab-scroll-overlay.is-visible .tab-scroll-thumb{pointer-events:auto;cursor:default}
+.tab-scroll-overlay.is-dragging .tab-scroll-thumb{background:var(--muted)}
+@media(prefers-reduced-motion:reduce){
+ .tab-scroll-overlay{transition:none}
+}
+
+
+/* v24 — anime overview: explicit installment context and a calmer, more useful
+   episode list. No movement is added to stationary UI elements. */
+.detail-browsing{display:flex;flex-wrap:wrap;align-items:center;gap:6px 14px;margin-top:1px;color:var(--muted);font-size:12px;line-height:1.55}
+.detail-browsing-caption{font-size:10px;letter-spacing:.045em;text-transform:uppercase;font-weight:700;color:var(--muted)}
+.detail-browsing strong{font-size:12px;color:var(--ink);font-weight:670}
+.detail-browsing-sep{color:var(--muted);padding:0 2px}
+.detail-browsing-progress{font-variant-numeric:tabular-nums;border-left:1px solid var(--line);padding-left:14px}
+.detail-browsing-progress small{font-size:10px}
+.episode-heading{display:flex;align-items:baseline;flex-wrap:wrap;gap:6px 12px}
+.episode-heading-count{font-size:11px;color:var(--muted);font-variant-numeric:tabular-nums}
+.episode-filter{display:flex;gap:6px;flex-wrap:wrap;margin:12px 0 12px;align-items:center}
+.episode-filter button{border:1px solid var(--line);border-radius:999px;background:var(--surface);color:var(--muted);font-size:12px;font-weight:650;padding:8px 13px;min-height:34px;cursor:pointer;line-height:1.2}
+.episode-filter button span{color:inherit;opacity:.68;font-size:10px;margin-left:4px;font-variant-numeric:tabular-nums}
+.episode-filter button:hover{background:var(--hover);color:var(--ink)}
+.episode-filter button[aria-pressed=true]{border-color:var(--accent);background:var(--tab);color:var(--accent-ink)}
+.episode-filter button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+ .episode-item{position:relative;min-width:0}
+/* No selected-row styling: episodes are actions, not selectable list items. */
+.episode-item.episode-not-playable .episode-subtext{color:var(--muted)}
+.episode-item .episode-copy{min-width:0}
+.episode-item .episode-select{min-width:0}
+.episode-item .episode-name{overflow-wrap:anywhere}
+.episode-item .episode-selected{display:inline-flex;align-items:center;border:1px solid var(--line);background:var(--raised);color:var(--accent-ink);padding:2px 7px;border-radius:999px;font-size:10px;line-height:1.4;vertical-align:middle}
+.episode-item .episode-actions button:disabled{opacity:.35;cursor:not-allowed}
+.episode-empty-filter{border:1px dashed var(--line);border-radius:12px;color:var(--muted);background:var(--surface);padding:24px 18px;font-size:12px;line-height:1.65}
+.episode-empty-filter strong{color:var(--ink)}
+@media(max-width:680px){
+ .detail-browsing{gap:4px 10px;font-size:11px}
+ .detail-browsing strong{font-size:11px}
+ .detail-browsing-progress{padding-left:10px}
+ .episode-filter button{font-size:11px;padding:7px 10px}
+}
+@media(max-width:430px){
+ .detail-browsing-progress{border-left:0;padding-left:0;flex-basis:100%}
+ .episode-heading-count{font-size:10px}
+ .episode-item .episode-selected{font-size:9px;margin-left:5px}
+}
+
+
+/* v26: put the movable fill ABOVE the toggle background, but BELOW its labels.
+   Neutralize the inactive button's independent hover fill so it cannot mask the pill. */
+.detail-audio-toggle button:hover:not([aria-pressed="true"]){background:transparent;color:var(--accent-ink)}
+.detail-audio-toggle button:not([aria-pressed="true"]):not(:hover){background:transparent}
+/* Match the pill to the true grid cell positions at each responsive width. */
+.detail-audio-toggle{--audio-pad:4px;--audio-gap:4px;gap:var(--audio-gap);padding:var(--audio-pad)}
+.detail-audio-highlight{left:calc(var(--audio-pad) + 1px);top:calc(var(--audio-pad) + 1px);bottom:calc(var(--audio-pad) + 1px);width:calc((100% - 2px - var(--audio-pad) - var(--audio-pad) - var(--audio-gap)) / 2)}
+.detail-audio-toggle[data-active="dub"] .detail-audio-highlight{transform:translateX(calc(100% + var(--audio-gap)))}
+@media(max-width:850px){.detail-audio-toggle{--audio-pad:3px;--audio-gap:3px}}
+@media(max-width:370px){.detail-audio-toggle{--audio-pad:2px;--audio-gap:2px}}
+/* v27 — The selection ghost belongs to each button, not only aria-pressed=true,
+   so changing audio fades the old outline away instead of destroying it. */
+@media(prefers-reduced-motion:reduce){.detail-audio-toggle button::before{transition:none!important}}
+
+/* v35 — Full-height integrated edge navigation.
+   Fade occupies the exact selector height; its ENTIRE surface is an accessible
+   button, not a small button floating over a clickable release card. */
+.inline-release-viewport{position:relative;min-width:0;isolation:isolate}
+.inline-release-viewport .inline-installment-rail{
+  scrollbar-width:none!important;
+  -ms-overflow-style:none;
+  padding:1px 0;
+  scroll-snap-type:x proximity;
+}
+.inline-release-viewport .inline-installment-rail::-webkit-scrollbar{display:none!important;width:0!important;height:0!important}
+.inline-release-fade{
+  --edge-width:70px;
+  position:absolute;top:0;bottom:0;width:var(--edge-width);z-index:2;
+  pointer-events:none;
+  opacity:0;visibility:hidden;
+  transition:opacity .23s ease,visibility 0s linear .23s;
+}
+.inline-release-fade-left{left:0}
+.inline-release-fade-right{right:0}
+.inline-release-fade::before{content:"";position:absolute;inset:0;pointer-events:none;z-index:0}
+.inline-release-fade-left::before{background:linear-gradient(90deg,var(--window) 0%,var(--window) 12%,transparent 100%)}
+.inline-release-fade-right::before{background:linear-gradient(270deg,var(--window) 0%,var(--window) 12%,transparent 100%)}
+.inline-release-viewport.can-left .inline-release-fade-left,
+.inline-release-viewport.can-right .inline-release-fade-right{
+  opacity:1;visibility:visible;transition:opacity .23s ease,visibility 0s;
+}
+.inline-release-fade .inline-arrow{
+  position:relative;z-index:1;
+  display:flex;align-items:center;justify-content:center;
+  width:100%;height:100%;min-width:0;min-height:0;
+  margin:0;padding:0;
+  border:0;border-radius:0;background:transparent;box-shadow:none;
+  color:var(--muted);pointer-events:auto;
+}
+.inline-release-fade .inline-arrow:hover{
+  color:var(--accent);background:transparent;border:0;box-shadow:none;
+}
+.inline-release-fade .inline-arrow:focus-visible{
+  outline:2px solid var(--accent);outline-offset:-3px;border-radius:8px;
+}
+.inline-release-fade .inline-arrow .icon{pointer-events:none}
+/* Boundary guard: while a pointer rests on an edge that has just scrolled
+   to its limit, its full-height invisible hit target stays in place. */
+.inline-release-viewport.guard-left .inline-release-fade-left,
+.inline-release-viewport.guard-right .inline-release-fade-right{
+  opacity:0;visibility:visible;transition:opacity .23s ease,visibility 0s;
+}
+/* Clearer bare arrows, without restoring separate button chrome. */
+.inline-release-fade .inline-arrow{color:var(--ink)}
+.inline-release-fade .inline-arrow .icon{width:21px;height:21px;stroke-width:2.5;filter:drop-shadow(0 1px 2px var(--window))}
+.inline-release-fade .inline-arrow:hover{color:var(--accent)}
+@media(max-width:560px){.inline-release-fade{--edge-width:54px}}
+@media(prefers-reduced-motion:reduce){.inline-release-fade{transition:none!important}}
+
+
+/* v37 — One continuous episode heading/availability/filter toolbar.
+   The heading remains left of the card, and counts and filter share its row.
+   Only the filter changes state; no extra movement is added. */
+.episode-toolbar{display:flex;align-items:center;gap:17px;margin:0 0 13px;min-width:0}
+.episode-toolbar .episode-heading{flex:0 0 90px;min-width:0;align-self:center;display:flex;align-items:center}
+.episode-toolbar .episode-heading h2{font-size:21px;line-height:1.2;margin:0}
+.episode-toolbar .episode-heading .season-select{display:none}
+.episode-toolbar .episode-availability{flex:1 1 auto;min-width:0;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:7px 10px 7px 14px;margin:0;border-radius:12px}
+.episode-availability .episode-stats{display:flex;align-items:center;gap:15px;min-width:0;flex-wrap:wrap;row-gap:6px}
+.episode-availability .availability-label{display:inline-flex;align-items:center;gap:5px;white-space:nowrap}
+.episode-availability .episode-shown{display:inline-flex;align-items:center;gap:13px;white-space:nowrap;color:var(--muted);font-size:11px;font-variant-numeric:tabular-nums;opacity:1;transition:opacity .42s ease}
+.episode-availability .episode-shown::before{content:'';display:block;width:1px;height:15px;flex:none;background:var(--line)}
+/* Reserve the count's footprint and fade the count + its divider as one unit. */
+.episode-availability .episode-shown.is-hidden{opacity:0;pointer-events:none}
+@media(prefers-reduced-motion:reduce){.episode-availability .episode-shown{transition:none}}
+.episode-availability .episode-filter{flex:0 0 auto;margin:0;display:inline-flex;gap:2px;align-items:center;flex-wrap:nowrap;padding:3px;border-radius:9px;background:var(--window)}
+.episode-availability .episode-filter button{border:1px solid transparent;background:transparent;border-radius:7px;color:var(--muted);min-height:30px;padding:6px 10px;font-size:11px;font-weight:650;white-space:nowrap;line-height:1.1}
+.episode-availability .episode-filter button:hover:not([aria-pressed=true]){background:var(--hover);color:var(--ink)}
+.episode-availability .episode-filter button[aria-pressed=true]{background:var(--tab);color:var(--accent-ink);border-color:transparent}
+.episode-availability .episode-filter button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+/* Preserve horizontal arrangement as long as there's enough room to fit. */
+@media(max-width:970px){
+ .episode-toolbar{gap:12px}
+ .episode-toolbar .episode-heading{flex-basis:82px}
+ .episode-availability .episode-stats{gap:9px}
+ .episode-availability .episode-shown{gap:9px}
+ .episode-toolbar .episode-availability{padding:8px 9px;gap:8px}
+ .episode-availability .episode-filter button{padding:6px 8px}
+}
+@media(max-width:790px){
+ .episode-toolbar .episode-availability{flex-wrap:wrap}
+ .episode-availability .episode-stats{flex:1 1 auto}
+ .episode-availability .episode-filter{margin-left:auto}
+}
+@media(max-width:570px){
+ .episode-toolbar{display:block}
+ .episode-toolbar .episode-heading{margin-bottom:11px;display:block}
+ .episode-toolbar .episode-heading h2{font-size:18px}
+ .episode-toolbar .episode-availability{width:100%;padding:10px 11px;gap:10px}
+ .episode-availability .episode-stats{flex-basis:100%}
+ .episode-availability .episode-filter{margin-left:auto}
+ .episode-availability .episode-shown{gap:8px}
+}
+@media(max-width:390px){
+ .episode-availability .episode-stats{gap:9px}
+ .episode-availability .availability-label{font-size:11px}
+ .episode-availability .episode-shown{font-size:10px}
+}
+
+
+/* v38 — Episode controls: equal 44×40 targets, responsive to the actual
+   episode-section width rather than browser-window breakpoints. */
+.detail-section{container-type:inline-size;container-name:episode-area}
+.episode-item{grid-template-columns:44px minmax(0,1fr) auto;align-items:center;gap:14px;min-height:80px;padding:12px}
+.episode-copy{min-width:0}
+.episode-tools{grid-column:3;grid-row:1;display:flex;flex-direction:row;align-items:center;justify-content:flex-end;gap:6px;min-width:0}
+.episode-flags,.episode-actions{display:grid;grid-template-columns:repeat(2,44px);gap:6px;align-items:center;justify-content:end;margin:0}
+.episode-flags .audio-flag{box-sizing:border-box;width:44px;min-width:44px;height:40px;display:flex;align-items:center;justify-content:center;border-radius:9px;padding:0 2px;font-size:11px;line-height:1}
+.episode-actions .iconbtn{box-sizing:border-box;width:44px;min-width:44px;height:40px;min-height:40px;display:flex;align-items:center;justify-content:center;border-radius:9px;padding:0}
+/* A compact, stable heading and episode toolbar. */
+.episode-toolbar{display:grid;grid-template-columns:max-content minmax(0,1fr);gap:14px;align-items:center;margin:0 0 13px;min-width:0}
+.episode-toolbar .episode-heading{display:block;min-width:max-content;align-self:center}
+.episode-toolbar .episode-heading h2{font-size:21px;line-height:1.2;margin:0}
+.episode-toolbar .episode-availability{box-sizing:border-box;display:grid;grid-template-columns:minmax(0,1fr) max-content;align-items:center;gap:12px;min-width:0;padding:7px 10px 7px 14px;margin:0}
+.episode-availability .episode-stats{display:flex;flex-wrap:nowrap;align-items:center;gap:12px;min-width:0}
+.episode-availability .availability-label{display:inline-flex;align-items:center;gap:5px;white-space:nowrap}
+.episode-availability .episode-shown{gap:10px;white-space:nowrap}
+.episode-availability .episode-filter{margin:0;justify-self:end;flex:0 0 auto;white-space:nowrap}
+.episode-availability .episode-filter button{min-height:30px;padding:6px 10px}
+/* Deliberate layout transitions follow the section's available width. */
+@container episode-area (max-width:710px){
+ .episode-toolbar{grid-template-columns:minmax(0,1fr);gap:9px}
+ .episode-toolbar .episode-heading{min-width:0}
+ .episode-toolbar .episode-availability{width:100%}
+}
+@container episode-area (max-width:635px){
+ .episode-item{grid-template-columns:36px minmax(0,1fr) auto;gap:10px;min-height:100px;padding:12px 8px}
+ .episode-tools{grid-column:3;grid-row:1;display:flex;flex-direction:column;align-items:flex-end;gap:6px}
+ .episode-flags,.episode-actions{grid-template-columns:repeat(2,44px);gap:6px}
+}
+@container episode-area (max-width:515px){
+ .episode-toolbar .episode-availability{display:flex;flex-wrap:wrap;gap:9px;padding:10px 11px}
+ .episode-availability .episode-stats{flex:1 1 100%;flex-wrap:wrap;gap:8px 12px}
+ .episode-availability .episode-filter{margin-left:auto}
+ .episode-item{grid-template-columns:28px minmax(0,1fr) auto;gap:8px;padding:10px 4px}
+ .episode-no{font-size:17px}
+}
+@container episode-area (max-width:320px){
+ .episode-flags,.episode-actions{grid-template-columns:repeat(2,40px);gap:5px}
+ .episode-flags .audio-flag,.episode-actions .iconbtn{width:40px;min-width:40px;height:38px;min-height:38px}
+ .episode-item{grid-template-columns:24px minmax(0,1fr) auto;gap:6px;padding:10px 2px}
+ .episode-toolbar .episode-availability{padding:9px 8px}
+ .episode-availability .episode-stats{column-gap:9px}
+ .episode-availability .availability-label{font-size:11px}
+}
+@media(prefers-reduced-motion:reduce){.episode-availability .episode-shown{transition:none}}
+

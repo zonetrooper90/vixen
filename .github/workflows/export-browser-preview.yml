@@ -1,4 +1,4 @@
-name: Export Gallery v0.2.6 browser animation preview
+name: Export Gallery v0.2.7 browser animation preview
 
 on:
   push:
@@ -24,11 +24,11 @@ jobs:
         run: |
           node scripts/export-browser-preview.cjs
           node --check app/renderer.js
-          test -s dist-preview/Gallery-v0.2.6-Animation-Preview.html
+          test -s dist-preview/Gallery-v0.2.7-Animation-Preview.html
       - name: Upload standalone HTML
         uses: actions/upload-artifact@v4
         with:
-          name: Gallery-v0.2.6-Standalone-HTML-Preview
-          path: dist-preview/Gallery-v0.2.6-Animation-Preview.html
+          name: Gallery-v0.2.7-Standalone-HTML-Preview
+          path: dist-preview/Gallery-v0.2.7-Animation-Preview.html
           if-no-files-found: error
           retention-days: 30

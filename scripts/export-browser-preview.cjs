@@ -14,8 +14,8 @@ if(!html.includes('<link rel="stylesheet" href="./style.css">')) throw Error('Ga
 html=html.replace('<link rel="stylesheet" href="./style.css">','<style>'+css.replace(/<\/style/gi,'<\\/style')+'</style>');
 if(!html.includes('<script src="./renderer.js"></script>')) throw Error('Gallery renderer link not found');
 html=html.replace('<script src="./renderer.js"></script>','<script>'+js.replace(/<\/script/gi,'<\\/script')+'</script>');
-const out=path.join(root,'dist-preview','Gallery-v0.2.6-Animation-Preview.html');
+const out=path.join(root,'dist-preview','Gallery-v0.2.7-Animation-Preview.html');
 fs.mkdirSync(path.dirname(out),{recursive:true});
 fs.writeFileSync(out,html,'utf8');
-if(!html.includes('gallery-surface-in')||!html.includes('gallery-dialog-in')||!html.includes('Gallery · v0.2.6'))throw Error('Wrong preview version or missing animation rules');
+if(!html.includes('tab-pages-track')||!html.includes('tab-indicator')||!html.includes('Gallery · v0.2.7'))throw Error('Wrong preview version or missing animation rules');
 console.log('Created '+out+' ('+Buffer.byteLength(html)+' bytes)');

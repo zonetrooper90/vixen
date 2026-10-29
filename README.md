@@ -2,6 +2,12 @@
 
 **Repository:** `zonetrooper90/vixen` (temporary repository name). **Gallery** is the application's current working title; neither name has been confirmed as the final brand.
 
+## v0.2.7 — approved v41 interface integration (test branch)
+
+The v0.2.7 integration imports the approved HTML v41 navigation and UI: persistent directional tab sliding, responsive episode controls, chronological release rail, library refinements, two-color download timelines, Paper Lantern contrast fixes, and accessible Settings keyboard scrolling. All fictional anime, downloads, availability, and watch progress remain illustrative; local video playback and optional VLC use the existing macOS bridge. The Settings icon remains in the header and Settings stays a dialog until a future release.
+
+**Development branch:** `feature/gallery-v0.2.7-v41-integration`. This is not an approved Mac baseline until the user tests the resulting app. The last user-confirmed working Mac release remains v0.2.5.
+
 ## v0.2.6 — Apple Silicon preview
 
 The first available build is a **development prototype for local video playback**. It is not yet a live anime streaming/download application. It includes our custom player UI, theme-aware split progress timeline, 10-second seek controls, local video selection, three themes, and experimental VLC support for local files. Streaming providers, downloading, and embedded MPV remain future development tasks.
@@ -10,8 +16,8 @@ The first available build is a **development prototype for local video playback*
 
 1. Open **Actions → Build Gallery for Apple Silicon**.
 2. Choose a successful run for `main` (or select **Run workflow**).
-3. Download the `Gallery-v0.2.6-Apple-Silicon-DMG` artifact.
-4. Extract the downloaded artifact ZIP, then double-click the **Gallery-v0.2.6-arm64.dmg** inside it.
+3. Download the `Gallery-v0.2.7-Apple-Silicon-DMG` artifact.
+4. Extract the downloaded artifact ZIP, then double-click the **Gallery-v0.2.7-arm64.dmg** inside it.
 5. Drag **Gallery.app** from the mounted DMG into Applications and open it. No local npm installation is required.
 
 The development preview uses **ad-hoc code signing** (matching the StrawVerse development build) and is **not Apple Developer ID signed or notarized**. The DMG and `.app` have been verified in GitHub's macOS build workflow. Gatekeeper may still require approval on another Mac; do not disable Gatekeeper globally. This is not a public distribution-ready signature.
